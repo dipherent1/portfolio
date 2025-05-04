@@ -80,6 +80,11 @@ export default function Contact() {
       // Use the chat ID from state if available, otherwise use environment variable
       const userChatId = chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "YOUR_CHAT_ID";
 
+      console.log("Environment variables:", {
+        NEXT_PUBLIC_TELEGRAM_BOT_TOKEN: process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN ? "Set (length: " + process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN.length + ")" : "Not set",
+        NEXT_PUBLIC_TELEGRAM_CHAT_ID: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "Not set"
+      });
+
       console.log("Sending to Telegram with token:", token.substring(0, 5) + "..." + token.substring(token.length - 5));
       console.log("Sending to chat ID:", userChatId);
 
