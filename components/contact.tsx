@@ -85,6 +85,15 @@ export default function Contact() {
 
       // Use our Next.js API route instead of calling Telegram directly
       try {
+        console.log("Sending to Telegram API with:", {
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || 'No Subject',
+          messageLength: formData.message?.length,
+          botTokenLength: token?.length,
+          chatId: userChatId
+        });
+
         const response = await fetch('/api/telegram', {
           method: 'POST',
           headers: {
@@ -100,13 +109,25 @@ export default function Contact() {
           })
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error('API error:', errorData);
+        // Get the response text first for debugging
+        const responseText = await response.text();
+        console.log('Raw API response:', responseText);
+
+        // Try to parse the response
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (e) {
+          console.error('Failed to parse API response:', e);
           return false;
         }
 
-        const result = await response.json();
+        if (!response.ok) {
+          console.error('API error:', result);
+          alert(`Failed to send to Telegram: ${result.error || 'Unknown error'}`);
+          return false;
+        }
+
         console.log('Telegram notification sent:', result);
         return result.success;
       } catch (error) {
