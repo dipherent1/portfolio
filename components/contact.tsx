@@ -21,6 +21,7 @@ export default function Contact() {
   })
 
   const [chatId, setChatId] = useState<string | null>(null)
+  const [botToken, setBotToken] = useState<string | null>(null)
   const [showChatIdHelper, setShowChatIdHelper] = useState(false)
 
   // Using Formspree hook with your form ID
@@ -30,9 +31,9 @@ export default function Contact() {
   // Function to get chat ID
   const getChatId = async () => {
     try {
-      // Use environment variable or a placeholder for development
-      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
-      const response = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates`);
+      // Use manually set token, environment variable, or a placeholder
+      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
+      const response = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
       const data = await response.json();
 
       if (data.ok && data.result.length > 0) {
@@ -63,10 +64,13 @@ export default function Contact() {
 
   const sendToTelegram = async (formData: any) => {
     try {
-      // Use environment variable or a placeholder for development
-      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
+      // Use manually set token, environment variable, or a placeholder
+      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
       // Use the chat ID from state if available, otherwise use environment variable
       const userChatId = chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "YOUR_CHAT_ID";
+
+      console.log("Sending to Telegram with token:", token.substring(0, 5) + "..." + token.substring(token.length - 5));
+      console.log("Sending to chat ID:", userChatId);
 
       // Format the message for Telegram
       const text = `
@@ -81,22 +85,34 @@ ${formData.message}
       `;
 
       // Send to Telegram Bot API
-      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
-      const telegramResponse = await fetch(telegramUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: userChatId,
-          text: text,
-          parse_mode: 'HTML'
-        })
-      });
+      const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
 
-      const telegramResult = await telegramResponse.json();
-      console.log('Telegram notification sent:', telegramResult);
-      return telegramResult.ok;
+      try {
+        const telegramResponse = await fetch(telegramUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: userChatId,
+            text: text,
+            parse_mode: 'HTML'
+          })
+        });
+
+        if (!telegramResponse.ok) {
+          const errorText = await telegramResponse.text();
+          console.error('Telegram API error:', errorText);
+          return false;
+        }
+
+        const telegramResult = await telegramResponse.json();
+        console.log('Telegram notification sent:', telegramResult);
+        return telegramResult.ok;
+      } catch (error) {
+        console.error('Network error when sending to Telegram:', error);
+        return false;
+      }
     } catch (error) {
       console.error('Error sending to Telegram:', error);
       return false;
@@ -327,10 +343,34 @@ ${formData.message}
                   <h4 className="text-sm font-bold mb-2 text-terminal-green">Telegram Bot Setup</h4>
                   <ol className="text-xs text-gray-300 space-y-2 list-decimal pl-4">
                     <li>Create a new bot or revoke token for existing bot via <span className="text-terminal-green">@BotFather</span> on Telegram</li>
-                    <li>Add the new token to your <span className="text-terminal-green">.env.local</span> file as <span className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_BOT_TOKEN</span></li>
+                    <li>Enter your bot token below or add it to <span className="text-terminal-green">.env.local</span> as <span className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_BOT_TOKEN</span></li>
                     <li>Send a message to your bot (e.g., "Hello")</li>
                     <li>Click the button below to get your chat ID</li>
                   </ol>
+
+                  <div className="mt-3">
+                    <div className="text-xs text-gray-400 mb-2">Enter your Telegram Bot Token:</div>
+                    <div className="flex">
+                      <input
+                        type="password"
+                        placeholder="Enter your bot token"
+                        className="flex-1 bg-black/30 border border-white/10 rounded-l px-3 py-1 text-white text-xs focus:outline-none focus:border-terminal-green/50"
+                        onChange={(e) => setBotToken(e.target.value)}
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="rounded-l-none border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10 text-xs py-1 px-2"
+                        onClick={() => {
+                          if (botToken) {
+                            alert(`Bot token set successfully!`);
+                          }
+                        }}
+                      >
+                        Set
+                      </Button>
+                    </div>
+                  </div>
 
                   <div className="mt-3 flex items-center">
                     <Button
@@ -350,9 +390,63 @@ ${formData.message}
                     )}
                   </div>
 
-                  {chatId && (
+                  <div className="mt-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const testMessage = {
+                          name: "Test User",
+                          email: "test@example.com",
+                          subject: "Test Message",
+                          message: "This is a test message from your portfolio website."
+                        };
+                        sendToTelegram(testMessage)
+                          .then(success => {
+                            if (success) {
+                              alert("Test message sent successfully! Check your Telegram.");
+                            } else {
+                              alert("Failed to send test message. Check console for details.");
+                            }
+                          })
+                          .catch(error => {
+                            console.error("Error sending test message:", error);
+                            alert("Error sending test message. Check console for details.");
+                          });
+                      }}
+                      className="w-full border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
+                    >
+                      Send Test Message
+                    </Button>
+                  </div>
+
+                  {chatId ? (
                     <div className="mt-3 text-xs text-gray-400">
                       <p>Add this chat ID to your <code className="text-terminal-green">.env.local</code> file as <code className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_CHAT_ID</code></p>
+                    </div>
+                  ) : (
+                    <div className="mt-3">
+                      <div className="text-xs text-gray-400 mb-2">Or manually enter your chat ID:</div>
+                      <div className="flex">
+                        <input
+                          type="text"
+                          placeholder="Enter your chat ID"
+                          className="flex-1 bg-black/30 border border-white/10 rounded-l px-3 py-1 text-white text-xs focus:outline-none focus:border-terminal-green/50"
+                          onChange={(e) => setChatId(e.target.value)}
+                        />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="rounded-l-none border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10 text-xs py-1 px-2"
+                          onClick={() => {
+                            if (chatId) {
+                              alert(`Chat ID set to: ${chatId}`);
+                            }
+                          }}
+                        >
+                          Set
+                        </Button>
+                      </div>
                     </div>
                   )}
                 </div>
