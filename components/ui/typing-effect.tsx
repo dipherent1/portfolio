@@ -34,7 +34,9 @@ export default function TypingEffect({
       if (displayText === "") {
         setIsDeleting(false)
         setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length)
-        timeout = setTimeout(() => {}, delayBeforeType)
+        timeout = setTimeout(() => {
+          // Do nothing, just delay
+        }, delayBeforeType)
       } else {
         timeout = setTimeout(() => {
           setDisplayText(displayText.slice(0, -1))

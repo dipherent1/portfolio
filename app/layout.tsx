@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-off-black font-sans antialiased", inter.variable, jetbrainsMono.variable)}>
+      <body className={cn("min-h-screen bg-off-black font-sans antialiased", inter.variable, jetbrainsMono.variable)} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Navbar />
           {children}
@@ -41,4 +41,4 @@ export default function RootLayout({
 
 
 
-import './globals.css'
+// Import already handled at the top

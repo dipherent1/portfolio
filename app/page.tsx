@@ -3,8 +3,8 @@ import About from "@/components/about"
 import Skills from "@/components/skills"
 import Projects from "@/components/projects"
 import Experience from "@/components/experience"
-import Extras from "@/components/extras"
 import Contact from "@/components/contact"
+import Footer from "@/components/footer"
 import MatrixRain from "@/components/ui/matrix-rain"
 import ThreeDBackground from "@/components/ui/3d-background"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -30,12 +30,10 @@ export default function Home() {
         <section id="experience" className="snap-start min-h-screen py-20">
           <Experience />
         </section>
-        <section id="extras" className="snap-start min-h-screen py-20">
-          <Extras />
-        </section>
         <section id="contact" className="snap-start min-h-screen py-20">
           <Contact />
         </section>
+        <Footer />
       </ScrollArea>
     </main>
   )

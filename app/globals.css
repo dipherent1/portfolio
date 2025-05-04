@@ -250,141 +250,100 @@
   }
 }
 
-/* Terminal background pattern */
-.terminal-background::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(circle at 25px 25px, rgba(0, 255, 173, 0.1) 2px, transparent 0),
-    radial-gradient(circle at 75px 75px, rgba(75, 112, 245, 0.1) 2px, transparent 0);
-  background-size: 100px 100px;
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 0;
+/* About section styles */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Terminal scan line effect */
-.terminal-background::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 255, 173, 0.05) 50%, transparent 100%);
-  background-size: 100% 10px;
-  animation: scan 8s linear infinite;
-  pointer-events: none;
-  z-index: 1;
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
-@keyframes scan {
-  0% {
-    background-position: 0 -100vh;
-  }
-  100% {
-    background-position: 0 100vh;
-  }
-}
-
-.terminal-command {
-  margin-bottom: 0.5rem;
+/* Skills section styles */
+.skills-grid {
   position: relative;
-  z-index: 2;
+  min-height: 800px;
 }
 
-.terminal-output {
-  position: relative;
-  z-index: 2;
-  color: rgba(255, 255, 255, 0.9);
-  white-space: pre-wrap;
-  word-break: break-word;
+.skill-category-container {
+  transition: all 0.5s ease-out;
 }
 
-.terminal-input-container {
-  position: relative;
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 0 0 0.5rem 0.5rem;
-}
-
-.terminal-input {
-  caret-color: theme("colors.terminal-green");
-  font-family: var(--font-jetbrains);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* Terminal cursor animation */
-@keyframes cursor-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-/* Terminal text animation */
-@keyframes text-appear {
+@keyframes fadeInUp {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.terminal-command {
-  animation: text-appear 0.3s ease-in-out;
+.skill-category-container:nth-child(1) { animation-delay: 0.1s; }
+.skill-category-container:nth-child(2) { animation-delay: 0.2s; }
+.skill-category-container:nth-child(3) { animation-delay: 0.3s; }
+.skill-category-container:nth-child(4) { animation-delay: 0.4s; }
+.skill-category-container:nth-child(5) { animation-delay: 0.5s; }
+.skill-category-container:nth-child(6) { animation-delay: 0.6s; }
+
+/* Experience section styles */
+.experience-timeline-item {
+  position: relative;
 }
 
-/* Terminal text gradient */
-.terminal-text-gradient {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.9) 50%,
-    rgba(255, 255, 255, 0.7) 100%
-  );
+.experience-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 30px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(0, 255, 173, 1), rgba(0, 255, 173, 0));
+}
+
+.experience-icon {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.experience-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 255, 173, 0.5);
+}
+
+.experience-card {
+  transition: all 0.3s ease;
+}
+
+.experience-card:hover {
+  transform: translateX(8px);
+}
+
+.experience-card.active {
+  border-color: rgba(0, 255, 173, 0.5);
+  box-shadow: 0 0 15px rgba(0, 255, 173, 0.2);
+}
+
+/* Footer styles */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, rgba(0, 255, 173, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 173, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+footer .gradient-text {
+  background: linear-gradient(90deg, #00ffad, #4b70f5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
 }
 
-/* Custom scrollbar for terminal */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 255, 173, 0.3) rgba(0, 0, 0, 0.2);
+footer a:hover .text-terminal-green,
+footer button:hover .text-terminal-green {
+  text-shadow: 0 0 8px rgba(0, 255, 173, 0.5);
 }
-
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 255, 173, 0.3);
-  border-radius: 3px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 255, 173, 0.5);
-}
-
-/* Horizontal scrolling for terminal output */
-.terminal-output,
-.terminal-command {
-  max-width: 100%;
-}
-

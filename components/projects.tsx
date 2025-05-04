@@ -24,8 +24,7 @@ export default function Projects() {
       description:
         "Real-time Telegram Bot with Redis, Go, and AI filtering capabilities for content moderation and user interaction.",
       techStack: ["Go", "Redis", "Telegram API", "AI", "Docker"],
-      githubUrl: "https://github.com",
-      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/dipherent1/Kesbekes-2.0",
     },
     {
       id: 2,
@@ -33,7 +32,8 @@ export default function Projects() {
       description:
         "IoT system with ESP32 and Python backend for monitoring and managing bike racks with real-time status updates.",
       techStack: ["ESP32", "Python", "MQTT", "MongoDB", "React"],
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/IETP-Project-Smart-Bike-Rack/Smart-Rack",
+      liveUrl: "https://sites.google.com/view/smartbikerack/description",
     },
     {
       id: 3,
@@ -41,8 +41,7 @@ export default function Projects() {
       description:
         "Scheduling application with Natural Language Processing capabilities built with Django and modern frontend technologies.",
       techStack: ["Django", "NLP", "PostgreSQL", "React", "Redux"],
-      githubUrl: "https://github.com",
-      liveUrl: "https://example.com",
+      githubUrl: "https://github.com/dipherent1/Kesbekes",
     },
     {
       id: 4,

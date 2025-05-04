@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useForm, ValidationError } from '@formspree/react'
 import Container from "@/components/ui/container"
 import SectionHeading from "@/components/ui/section-heading"
 import GlassCard from "@/components/ui/glass-card"
@@ -19,9 +20,9 @@ export default function Contact() {
     message: "",
   })
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null)
-  const [submitMessage, setSubmitMessage] = useState("")
+  // Using Formspree hook with your form ID
+  const [formspreeState, handleFormspreeSubmit] = useForm("xpwporvg")
+  const { submitting, succeeded, errors } = formspreeState
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
@@ -32,61 +33,31 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus(null)
-    setSubmitMessage("")
 
-    try {
-      // Create form data object
-      const formData = new FormData()
+    // Create form data for Formspree submission
+    const formData = new FormData()
+    formData.append('name', formState.name)
+    formData.append('email', formState.email)
+    formData.append('subject', formState.subject || 'New contact form submission')
+    formData.append('message', formState.message)
 
-      // Add form fields
-      formData.append('access_key', '76ee15c6-1b3e-4af1-bf74-56d6df04a38a')
-      formData.append('name', formState.name)
-      formData.append('email', formState.email)
-      formData.append('subject', formState.subject || 'New contact form submission')
-      formData.append('message', formState.message)
-      formData.append('from_name', 'Portfolio Contact Form')
+    // Submit the form using Formspree
+    await handleFormspreeSubmit(e)
 
-      // Send the form data to Web3Forms API
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
+    // If submission was successful, reset the form
+    if (succeeded) {
+      setFormState({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
       })
 
-      const data = await response.json()
-
-      if (data.success) {
-        // Form submission was successful
-        setSubmitStatus('success')
-        setSubmitMessage("Message sent successfully! I'll get back to you soon.")
-
-        // Reset the form
-        setFormState({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        })
-
-        // Clear success message after 8 seconds
-        setTimeout(() => {
-          setSubmitStatus(null)
-          setSubmitMessage("")
-        }, 8000)
-      } else {
-        // Form submission failed
-        setSubmitStatus('error')
-        setSubmitMessage(data.message || "Something went wrong. Please try again.")
-        console.error('Form submission failed:', data)
-      }
-    } catch (error) {
-      // Handle any errors
-      setSubmitStatus('error')
-      setSubmitMessage("An error occurred. Please try again later.")
-      console.error("Form submission error:", error)
-    } finally {
-      setIsSubmitting(false)
+      // Clear success message after 8 seconds
+      setTimeout(() => {
+        // Reset the Formspree state (this is not directly possible with the hook)
+        // We'll rely on the UI to handle this
+      }, 8000)
     }
   }
 
@@ -111,6 +82,7 @@ export default function Contact() {
                 required
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
+              <ValidationError prefix="Name" field="name" errors={errors} className="text-red-400 text-sm mt-1" />
             </div>
 
             <div>
@@ -126,6 +98,7 @@ export default function Contact() {
                 required
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
+              <ValidationError prefix="Email" field="email" errors={errors} className="text-red-400 text-sm mt-1" />
             </div>
 
             <div>
@@ -139,6 +112,7 @@ export default function Contact() {
                 onChange={handleChange}
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
+              <ValidationError prefix="Subject" field="subject" errors={errors} className="text-red-400 text-sm mt-1" />
             </div>
 
             <div>
@@ -154,14 +128,15 @@ export default function Contact() {
                 rows={5}
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
+              <ValidationError prefix="Message" field="message" errors={errors} className="text-red-400 text-sm mt-1" />
             </div>
 
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={submitting}
               className="w-full bg-terminal-green text-black hover:bg-terminal-green/80 transition-all"
             >
-              {isSubmitting ? (
+              {submitting ? (
                 <span className="flex items-center">
                   <svg
                     className="animate-spin -ml-1 mr-2 h-4 w-4 text-black"
@@ -193,24 +168,21 @@ export default function Contact() {
               )}
             </Button>
 
-            {submitStatus === 'success' && submitMessage && (
+            {succeeded && (
               <div className="text-terminal-green text-center flex items-center justify-center">
                 <CheckCircle className="h-4 w-4 mr-2" />
-                {submitMessage}
+                Message sent successfully! I'll get back to you soon.
               </div>
             )}
 
-            {submitStatus === 'error' && submitMessage && (
-              <div className="text-red-400 text-center flex items-center justify-center">
-                <AlertCircle className="h-4 w-4 mr-2" />
-                {submitMessage}
-              </div>
-            )}
-
-            {/* Hidden honeypot field to prevent spam */}
-            <div className="hidden">
-              <input type="checkbox" name="botcheck" id="botcheck" className="hidden" />
-            </div>
+            <ValidationError errors={errors} className="text-red-400 text-center flex items-center justify-center">
+              {(error) => (
+                <>
+                  <AlertCircle className="h-4 w-4 mr-2" />
+                  {error}
+                </>
+              )}
+            </ValidationError>
           </form>
         </GlassCard>
 
@@ -245,13 +217,13 @@ export default function Contact() {
               </a>
 
               <a
-                href="https://linkedin.com/in/binyam-mulat"
+                href="https://www.linkedin.com/in/binyam-mulat-2838a6249/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center text-gray-300 hover:text-terminal-green transition-colors group"
               >
                 <Linkedin className="h-5 w-5 mr-3" />
-                <span>linkedin.com/in/binyam-mulat</span>
+                <span>linkedin.com/in/binyam-mulat-2838a6249</span>
                 <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs terminal-text">
                   $ open connection
                 </span>
