@@ -30,7 +30,8 @@ export default function Contact() {
   // Function to get chat ID
   const getChatId = async () => {
     try {
-      const botToken = "7518383679:AAFOPvH_8wPZMbaoouqUHmsdohjz-APDQ7U";
+      // Use environment variable or a placeholder for development
+      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
       const response = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates`);
       const data = await response.json();
 
@@ -62,10 +63,10 @@ export default function Contact() {
 
   const sendToTelegram = async (formData: any) => {
     try {
-      const botToken = "7518383679:AAFOPvH_8wPZMbaoouqUHmsdohjz-APDQ7U";
-      // Use the chat ID from state if available, otherwise use a default value
-      // You should set this to your actual chat ID once you get it
-      const userChatId = chatId || "YOUR_CHAT_ID";
+      // Use environment variable or a placeholder for development
+      const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
+      // Use the chat ID from state if available, otherwise use environment variable
+      const userChatId = chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "YOUR_CHAT_ID";
 
       // Format the message for Telegram
       const text = `
@@ -325,7 +326,8 @@ ${formData.message}
                 <div className="mt-4 p-4 bg-black/30 border border-terminal-green/20 rounded-md">
                   <h4 className="text-sm font-bold mb-2 text-terminal-green">Telegram Bot Setup</h4>
                   <ol className="text-xs text-gray-300 space-y-2 list-decimal pl-4">
-                    <li>Open Telegram and search for your bot: <span className="text-terminal-green">@YourBotName</span></li>
+                    <li>Create a new bot or revoke token for existing bot via <span className="text-terminal-green">@BotFather</span> on Telegram</li>
+                    <li>Add the new token to your <span className="text-terminal-green">.env.local</span> file as <span className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_BOT_TOKEN</span></li>
                     <li>Send a message to your bot (e.g., "Hello")</li>
                     <li>Click the button below to get your chat ID</li>
                   </ol>
@@ -350,7 +352,7 @@ ${formData.message}
 
                   {chatId && (
                     <div className="mt-3 text-xs text-gray-400">
-                      <p>Update the code in <code className="text-terminal-green">components/contact.tsx</code> with your chat ID.</p>
+                      <p>Add this chat ID to your <code className="text-terminal-green">.env.local</code> file as <code className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_CHAT_ID</code></p>
                     </div>
                   )}
                 </div>
