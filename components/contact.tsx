@@ -33,10 +33,21 @@ export default function Contact() {
     try {
       // Use manually set token, environment variable, or a placeholder
       const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
-      const response = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
+
+      // Use our Next.js API route instead of calling Telegram directly
+      const response = await fetch('/api/telegram/getUpdates', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          botToken: token
+        })
+      });
+
       const data = await response.json();
 
-      if (data.ok && data.result.length > 0) {
+      if (data.success && data.result && data.result.length > 0) {
         // Get the most recent message's chat ID
         const updates = data.result;
         for (let i = updates.length - 1; i >= 0; i--) {
@@ -72,43 +83,32 @@ export default function Contact() {
       console.log("Sending to Telegram with token:", token.substring(0, 5) + "..." + token.substring(token.length - 5));
       console.log("Sending to chat ID:", userChatId);
 
-      // Format the message for Telegram
-      const text = `
-📬 New Contact Form Submission
-
-👤 Name: ${formData.name}
-📧 Email: ${formData.email}
-📝 Subject: ${formData.subject || 'No Subject'}
-📄 Message:
-
-${formData.message}
-      `;
-
-      // Send to Telegram Bot API
-      const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
-
+      // Use our Next.js API route instead of calling Telegram directly
       try {
-        const telegramResponse = await fetch(telegramUrl, {
+        const response = await fetch('/api/telegram', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            chat_id: userChatId,
-            text: text,
-            parse_mode: 'HTML'
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || 'No Subject',
+            message: formData.message,
+            botToken: token,
+            chatId: userChatId
           })
         });
 
-        if (!telegramResponse.ok) {
-          const errorText = await telegramResponse.text();
-          console.error('Telegram API error:', errorText);
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('API error:', errorData);
           return false;
         }
 
-        const telegramResult = await telegramResponse.json();
-        console.log('Telegram notification sent:', telegramResult);
-        return telegramResult.ok;
+        const result = await response.json();
+        console.log('Telegram notification sent:', result);
+        return result.success;
       } catch (error) {
         console.error('Network error when sending to Telegram:', error);
         return false;
