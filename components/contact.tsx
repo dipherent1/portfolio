@@ -20,9 +20,38 @@ export default function Contact() {
     message: "",
   })
 
+  const [chatId, setChatId] = useState<string | null>(null)
+  const [showChatIdHelper, setShowChatIdHelper] = useState(false)
+
   // Using Formspree hook with your form ID
   const [formspreeState, handleFormspreeSubmit] = useForm("xpwporvg")
   const { submitting, succeeded, errors } = formspreeState
+
+  // Function to get chat ID
+  const getChatId = async () => {
+    try {
+      const botToken = "7518383679:AAFOPvH_8wPZMbaoouqUHmsdohjz-APDQ7U";
+      const response = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates`);
+      const data = await response.json();
+
+      if (data.ok && data.result.length > 0) {
+        // Get the most recent message's chat ID
+        const updates = data.result;
+        for (let i = updates.length - 1; i >= 0; i--) {
+          if (updates[i].message && updates[i].message.chat) {
+            setChatId(updates[i].message.chat.id.toString());
+            return;
+          }
+        }
+      }
+
+      // If no chat ID found
+      alert("No messages found. Please send a message to your bot first, then try again.");
+    } catch (error) {
+      console.error("Error getting chat ID:", error);
+      alert("Error getting chat ID. Check console for details.");
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
@@ -31,21 +60,71 @@ export default function Contact() {
     })
   }
 
+  const sendToTelegram = async (formData: any) => {
+    try {
+      const botToken = "7518383679:AAFOPvH_8wPZMbaoouqUHmsdohjz-APDQ7U";
+      // Use the chat ID from state if available, otherwise use a default value
+      // You should set this to your actual chat ID once you get it
+      const userChatId = chatId || "YOUR_CHAT_ID";
+
+      // Format the message for Telegram
+      const text = `
+📬 New Contact Form Submission
+
+👤 Name: ${formData.name}
+📧 Email: ${formData.email}
+📝 Subject: ${formData.subject || 'No Subject'}
+📄 Message:
+
+${formData.message}
+      `;
+
+      // Send to Telegram Bot API
+      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      const telegramResponse = await fetch(telegramUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: userChatId,
+          text: text,
+          parse_mode: 'HTML'
+        })
+      });
+
+      const telegramResult = await telegramResponse.json();
+      console.log('Telegram notification sent:', telegramResult);
+      return telegramResult.ok;
+    } catch (error) {
+      console.error('Error sending to Telegram:', error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     // Create form data for Formspree submission
-    const formData = new FormData()
-    formData.append('name', formState.name)
-    formData.append('email', formState.email)
-    formData.append('subject', formState.subject || 'New contact form submission')
-    formData.append('message', formState.message)
+    const formData = {
+      name: formState.name,
+      email: formState.email,
+      subject: formState.subject || 'New contact form submission',
+      message: formState.message
+    }
 
     // Submit the form using Formspree
     await handleFormspreeSubmit(e)
 
-    // If submission was successful, reset the form
+    // If submission was successful, try to send to Telegram and reset the form
     if (succeeded) {
+      // Try to send to Telegram in the background
+      sendToTelegram(formData).catch(error => {
+        console.error('Failed to send to Telegram:', error);
+        // We don't need to show this error to the user as the form was still submitted successfully
+      });
+
+      // Reset the form
       setFormState({
         name: "",
         email: "",
@@ -232,6 +311,52 @@ export default function Contact() {
           </div>
 
           <div className="mt-8 pt-8 border-t border-white/10">
+            <div className="mb-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowChatIdHelper(!showChatIdHelper)}
+                className="w-full border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
+              >
+                {showChatIdHelper ? "Hide" : "Show"} Telegram Setup Helper
+              </Button>
+
+              {showChatIdHelper && (
+                <div className="mt-4 p-4 bg-black/30 border border-terminal-green/20 rounded-md">
+                  <h4 className="text-sm font-bold mb-2 text-terminal-green">Telegram Bot Setup</h4>
+                  <ol className="text-xs text-gray-300 space-y-2 list-decimal pl-4">
+                    <li>Open Telegram and search for your bot: <span className="text-terminal-green">@YourBotName</span></li>
+                    <li>Send a message to your bot (e.g., "Hello")</li>
+                    <li>Click the button below to get your chat ID</li>
+                  </ol>
+
+                  <div className="mt-3 flex items-center">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={getChatId}
+                      className="mr-2 border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
+                    >
+                      Get Chat ID
+                    </Button>
+
+                    {chatId && (
+                      <div className="text-xs">
+                        <span className="text-gray-400">Your Chat ID:</span>
+                        <span className="text-terminal-green ml-1 font-mono">{chatId}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {chatId && (
+                    <div className="mt-3 text-xs text-gray-400">
+                      <p>Update the code in <code className="text-terminal-green">components/contact.tsx</code> with your chat ID.</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
             <p className="text-center text-gray-400">
               &copy; {new Date().getFullYear()} Binyam Mulat Abegaz. All rights reserved.
             </p>
