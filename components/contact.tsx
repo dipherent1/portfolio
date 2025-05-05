@@ -32,7 +32,18 @@ export default function Contact() {
   const getChatId = async () => {
     try {
       // Use manually set token, environment variable, or a placeholder
-      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
+      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
+
+      if (!token) {
+        alert("Please enter a bot token first or add it to your .env.local file");
+        return;
+      }
+
+      // Validate token format
+      if (!token.match(/^\d+:[A-Za-z0-9_-]+$/)) {
+        alert("Invalid bot token format. Please check your token and try again.");
+        return;
+      }
 
       // Use our Next.js API route instead of calling Telegram directly
       const response = await fetch('/api/telegram/getUpdates', {
@@ -47,12 +58,20 @@ export default function Contact() {
 
       const data = await response.json();
 
+      if (!response.ok) {
+        console.error("Error response from getUpdates API:", data);
+        alert(`Error: ${data.error || "Failed to get updates from Telegram"}`);
+        return;
+      }
+
       if (data.success && data.result && data.result.length > 0) {
         // Get the most recent message's chat ID
         const updates = data.result;
         for (let i = updates.length - 1; i >= 0; i--) {
           if (updates[i].message && updates[i].message.chat) {
-            setChatId(updates[i].message.chat.id.toString());
+            const id = updates[i].message.chat.id.toString();
+            setChatId(id);
+            alert(`Chat ID found: ${id}`);
             return;
           }
         }
@@ -76,9 +95,22 @@ export default function Contact() {
   const sendToTelegram = async (formData: any) => {
     try {
       // Use manually set token, environment variable, or a placeholder
-      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "YOUR_BOT_TOKEN";
+      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
       // Use the chat ID from state if available, otherwise use environment variable
-      const userChatId = chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "YOUR_CHAT_ID";
+      const userChatId = chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "";
+
+      // Check if token and chat ID are available
+      if (!token || token === "YOUR_BOT_TOKEN") {
+        console.error("No valid Telegram bot token available");
+        alert("Telegram notification failed: No valid bot token available");
+        return false;
+      }
+
+      if (!userChatId || userChatId === "YOUR_CHAT_ID") {
+        console.error("No valid Telegram chat ID available");
+        alert("Telegram notification failed: No valid chat ID available");
+        return false;
+      }
 
       console.log("Environment variables:", {
         NEXT_PUBLIC_TELEGRAM_BOT_TOKEN: process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN ? "Set (length: " + process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN.length + ")" : "Not set",
@@ -130,7 +162,15 @@ export default function Contact() {
 
         if (!response.ok) {
           console.error('API error:', result);
-          alert(`Failed to send to Telegram: ${result.error || 'Unknown error'}`);
+          const errorMessage = result.error || 'Unknown error';
+          console.error(`Failed to send to Telegram: ${errorMessage}`);
+
+          // Don't show alert for every error - it's annoying for users
+          // Just log it to console for debugging
+          if (result.details) {
+            console.error('Error details:', result.details);
+          }
+
           return false;
         }
 

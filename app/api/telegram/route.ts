@@ -46,6 +46,25 @@ ${message || 'No message content'}
     console.log(`Calling Telegram API at: ${telegramUrl.replace(botToken, '[REDACTED]')}`);
 
     try {
+      // Validate the bot token format
+      if (!botToken.match(/^\d+:[A-Za-z0-9_-]+$/)) {
+        console.error('Invalid bot token format');
+        return NextResponse.json(
+          { success: false, error: 'Invalid bot token format' },
+          { status: 400 }
+        );
+      }
+
+      // Validate the chat ID format
+      if (!chatId.toString().match(/^-?\d+$/)) {
+        console.error('Invalid chat ID format');
+        return NextResponse.json(
+          { success: false, error: 'Invalid chat ID format' },
+          { status: 400 }
+        );
+      }
+
+      // Make the API call with proper error handling
       const telegramResponse = await fetch(telegramUrl, {
         method: 'POST',
         headers: {
@@ -60,21 +79,35 @@ ${message || 'No message content'}
 
       console.log("Telegram API response status:", telegramResponse.status);
 
-      if (!telegramResponse.ok) {
-        const errorText = await telegramResponse.text();
-        console.error('Telegram API error:', errorText);
+      // Get the response text for debugging
+      const responseText = await telegramResponse.text();
+      console.log("Telegram API raw response:", responseText);
+
+      // Try to parse the response
+      let telegramResult;
+      try {
+        telegramResult = JSON.parse(responseText);
+      } catch (error) {
+        console.error('Failed to parse Telegram API response:', error);
         return NextResponse.json(
-          { success: false, error: errorText },
+          { success: false, error: 'Invalid response from Telegram API' },
+          { status: 500 }
+        );
+      }
+
+      // Check if the response was successful
+      if (!telegramResponse.ok || !telegramResult.ok) {
+        console.error('Telegram API error:', telegramResult);
+        return NextResponse.json(
+          {
+            success: false,
+            error: telegramResult.description || 'Unknown error from Telegram API',
+            details: telegramResult
+          },
           { status: telegramResponse.status }
         );
       }
 
-      // Log the full response for debugging
-      const responseText = await telegramResponse.text();
-      console.log("Telegram API response:", responseText);
-
-      // Parse the response again since we consumed it with text()
-      const telegramResult = JSON.parse(responseText);
       return NextResponse.json({ success: true, result: telegramResult });
     } catch (error) {
       console.error("Error during Telegram API call:", error);
