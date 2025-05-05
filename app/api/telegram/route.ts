@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     console.log("Telegram API route called");
+    console.log("Running on Vercel:", process.env.VERCEL ? "Yes" : "No");
+
     const data = await request.json();
     const { name, email, subject, message, botToken, chatId } = data;
 
