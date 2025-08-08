@@ -30,7 +30,7 @@ export default function About() {
     <Container>
       <SectionHeading
         title="About Me"
-        subtitle="Backend developer and mechatronics enthusiast with a passion for building robust systems"
+        subtitle="Backend heavy fullstack developer and mechatronics enthusiast with a passion for building robust systems"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -50,7 +50,7 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="text-xl font-bold gradient-text">Binyam Mulat Abegaz</h3>
-                <p className="text-sm text-gray-300">Backend Developer & Mechatronics Engineer</p>
+                <p className="text-sm text-gray-300">Fullstack Developer & Mechatronics Engineer</p>
                 <div className="flex gap-2 mt-2">
                   <Button
                     size="sm"
@@ -74,10 +74,10 @@ export default function About() {
                 <span className="text-terminal-green">$</span> Education: <span className="text-white">BSc in Mechatronics Engineering</span>
               </p>
               <p>
-                <span className="text-terminal-green">$</span> Languages: <span className="text-white">Python, Go, C++, JavaScript</span>
+                <span className="text-terminal-green">$</span> Languages: <span className="text-white">Python, Go, C++, Typescript</span>
               </p>
               <p>
-                <span className="text-terminal-green">$</span> Experience: <span className="text-white">3+ years in software development</span>
+                <span className="text-terminal-green">$</span> Experience: <span className="text-white">2+ years in software development</span>
               </p>
               <p>
                 <span className="text-terminal-green">$</span> Interests: <span className="text-white">AI, IoT, Robotics, Backend Systems</span>
@@ -118,7 +118,7 @@ export default function About() {
             {activeTab === 'bio' && (
               <div className="prose prose-invert max-w-none animate-fadeIn">
                 <p className="text-lg">
-                  Hello! I'm <span className="gradient-text font-semibold">Binyam Mulat Abegaz</span>, a backend developer
+                  Hello! I'm <span className="gradient-text font-semibold">Binyam Mulat Abegaz</span>, a Fullstack developer
                   with a strong foundation in mechatronics engineering. I specialize in building scalable and efficient
                   backend systems using modern technologies.
                 </p>
@@ -144,13 +144,27 @@ export default function About() {
                 <div className="mb-6">
                   <h3 className="text-lg font-bold gradient-text mb-4">Professional Timeline</h3>
                   <div className="space-y-6">
+                    
+                    <div className="flex hover:translate-x-1 transition-transform">
+                      <div className="mr-4 mt-1">
+                        <Briefcase className="h-5 w-5 text-mint-green" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold">Backend Dev</h4>
+                        <p className="text-sm text-gray-400">Enmamar • 2025</p>
+                        <p className="text-sm text-gray-300 mt-1">
+                          Built a fast, scalable learning platform with integrated video streaming using FastAPI and Redis for real-time performance.
+                        </p>
+                      </div>
+                    </div>
+                    
                     <div className="flex hover:translate-x-1 transition-transform">
                       <div className="mr-4 mt-1">
                         <Briefcase className="h-5 w-5 text-mint-green" />
                       </div>
                       <div>
                         <h4 className="font-bold">AI Engineer</h4>
-                        <p className="text-sm text-gray-400">ICOG Labs • 2023-Present</p>
+                        <p className="text-sm text-gray-400">ICOG Labs • 2023-2024</p>
                         <p className="text-sm text-gray-300 mt-1">
                           Working on MCP servers and training different AI models. Implementing and optimizing machine learning pipelines for various applications.
                         </p>
@@ -165,10 +179,12 @@ export default function About() {
                         <h4 className="font-bold">Backend Intern</h4>
                         <p className="text-sm text-gray-400">Eskalate LLC • 2022</p>
                         <p className="text-sm text-gray-300 mt-1">
-                          Developed RESTful APIs using Django and FastAPI. Implemented database models and optimized queries for improved performance.
+                          Developed RESTful APIs using Golang. Implemented database models and optimized queries for improved performance.
                         </p>
                       </div>
                     </div>
+
+                    
 
                     <div className="flex hover:translate-x-1 transition-transform">
                       <div className="mr-4 mt-1">
@@ -176,7 +192,7 @@ export default function About() {
                       </div>
                       <div>
                         <h4 className="font-bold">Started Learning Backend Development</h4>
-                        <p className="text-sm text-gray-400">Self-taught • 2020</p>
+                        <p className="text-sm text-gray-400">Self-taught • 2022</p>
                         <p className="text-sm text-gray-300 mt-1">
                           Began learning Python and web development frameworks. Built several personal projects to practice skills.
                         </p>
@@ -194,7 +210,7 @@ export default function About() {
                       </div>
                       <div>
                         <h4 className="font-bold">BSc in Mechatronics Engineering</h4>
-                        <p className="text-sm text-gray-400">Addis Ababa University • 2018-2023</p>
+                        <p className="text-sm text-gray-400">Addis Ababa University • 2022-2024</p>
                         <p className="text-sm text-gray-300 mt-1">
                           Focused on the integration of mechanical, electronic, and software systems. Completed a capstone project on Smart Bike Rack system.
                         </p>
@@ -234,7 +250,7 @@ export default function About() {
                       </div>
                     </div>
 
-                    <div className="flex items-start">
+                    {/* <div className="flex items-start">
                       <div className="mr-3 mt-1 bg-terminal-green/20 p-2 rounded-full">
                         <Coffee className="h-5 w-5 text-terminal-green" />
                       </div>
@@ -244,7 +260,7 @@ export default function About() {
                           There's nothing better than solving complex problems with a good cup of coffee.
                         </p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="space-y-4">
@@ -253,9 +269,9 @@ export default function About() {
                         <Book className="h-5 w-5 text-terminal-green" />
                       </div>
                       <div>
-                        <h4 className="font-bold">Reading</h4>
+                        <h4 className="font-bold">Favorites</h4>
                         <p className="text-sm text-gray-300">
-                          I enjoy reading technical books, science fiction, and philosophy in my free time.
+                          I enjoy listening to podcasts and audiobooks.
                         </p>
                       </div>
                     </div>
@@ -272,7 +288,7 @@ export default function About() {
                       </div>
                     </div>
 
-                    <div className="flex items-start">
+                    {/* <div className="flex items-start">
                       <div className="mr-3 mt-1 bg-terminal-green/20 p-2 rounded-full">
                         <Globe className="h-5 w-5 text-terminal-green" />
                       </div>
@@ -282,7 +298,7 @@ export default function About() {
                           I believe in the power of open source and try to contribute whenever I can.
                         </p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -290,19 +306,19 @@ export default function About() {
                   <h3 className="text-lg font-bold gradient-text mb-4">Stats</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">250+</div>
+                      <div className="text-3xl font-bold text-terminal-green">700+</div>
                       <div className="text-sm text-gray-400">DSA Problems Solved</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">15+</div>
+                      <div className="text-3xl font-bold text-terminal-green">10+</div>
                       <div className="text-sm text-gray-400">Projects Completed</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">3+</div>
+                      <div className="text-3xl font-bold text-terminal-green">2+</div>
                       <div className="text-sm text-gray-400">Years Experience</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">5+</div>
+                      <div className="text-3xl font-bold text-terminal-green">4+</div>
                       <div className="text-sm text-gray-400">Technologies Mastered</div>
                     </div>
                   </div>

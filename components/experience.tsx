@@ -145,9 +145,27 @@ export default function Experience() {
 
   const experiences = [
     {
+      title: "Enmamar Backend Developer",
+      company: "Enmamar",
+      period: "Jan 2025",
+      location: "Addis Ababa, Ethiopia",
+      description:
+        "Developing and maintaining backend systems for Enmamar's Learning platform. Implementing RESTful APIs and optimizing database performance. Collaborating with frontend developers to ensure seamless integration.",
+      icon: <Brain className="h-5 w-5 text-terminal-green" />,
+      achievements: [
+        "Designed and implemented a scalable RESTful API architecture",
+        "Optimized database queries using Redis, improving response times by 30%",
+        "Improved security by using rate limiting by IP and input validation",
+        "Collaborated with frontend teams to enhance user experience",
+        "Implemented security best practices, reducing vulnerabilities by 40%"
+      ],
+      skills: ["FastAPI", "Chapa"],
+      link: "https://enmamar.com/"
+    },
+    {
       title: "AI Engineer",
       company: "ICOG Labs",
-      period: "Jan 2023 - Present",
+      period: "Jan 2023 - 2024",
       location: "Addis Ababa, Ethiopia",
       description:
         "Working on MCP servers and training different AI models. Implementing and optimizing machine learning pipelines for various applications. Collaborating with research teams on cutting-edge AI solutions.",
