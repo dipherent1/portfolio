@@ -288,7 +288,7 @@ export default function About() {
                       </div>
                     </div>
 
-                    <div className="flex items-start">
+                    {/* <div className="flex items-start">
                       <div className="mr-3 mt-1 bg-terminal-green/20 p-2 rounded-full">
                         <Globe className="h-5 w-5 text-terminal-green" />
                       </div>
@@ -298,7 +298,7 @@ export default function About() {
                           I believe in the power of open source and try to contribute whenever I can.
                         </p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -306,19 +306,19 @@ export default function About() {
                   <h3 className="text-lg font-bold gradient-text mb-4">Stats</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">250+</div>
+                      <div className="text-3xl font-bold text-terminal-green">700+</div>
                       <div className="text-sm text-gray-400">DSA Problems Solved</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">15+</div>
+                      <div className="text-3xl font-bold text-terminal-green">10+</div>
                       <div className="text-sm text-gray-400">Projects Completed</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">3+</div>
+                      <div className="text-3xl font-bold text-terminal-green">2+</div>
                       <div className="text-sm text-gray-400">Years Experience</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">5+</div>
+                      <div className="text-3xl font-bold text-terminal-green">4+</div>
                       <div className="text-sm text-gray-400">Technologies Mastered</div>
                     </div>
                   </div>

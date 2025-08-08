@@ -21,7 +21,7 @@ export default function Hero() {
 
       <div className="mb-6 relative w-32 h-32 rounded-full overflow-hidden border-2 border-terminal-green shadow-[0_0_15px_rgba(0,255,0,0.5)] hover:shadow-[0_0_25px_rgba(0,255,0,0.7)] transition-all duration-500 hover:scale-105">
         <div className="absolute inset-0 bg-gradient-to-br from-deep-blue/30 to-mint-green/30 z-10 mix-blend-overlay"></div>
-        <Image src="/placeholder.svg?height=128&width=128" alt="Binyam Mulat Abegaz" fill className="object-cover" />
+        <Image src="/image/sho.jpg" alt="Binyam Mulat Abegaz" fill className="object-cover" />
       </div>
 
       <h1 className="text-4xl md:text-6xl font-bold mb-4">
@@ -31,7 +31,7 @@ export default function Hero() {
 
       <div className="h-8 md:h-12 my-4">
         <TypingEffect
-          text={["Backend Developer", "Mechatronics Engineer", "AI Explorer"]}
+          text={["Fullstack Developer", "Mechatronics Engineer", "AI Explorer"]}
           className="text-xl md:text-3xl font-jetbrains"
         />
       </div>
