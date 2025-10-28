@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import Container from "@/components/ui/container"
 import SectionHeading from "@/components/ui/section-heading"
 import GlassCard from "@/components/ui/glass-card"
 import { Button } from "@/components/ui/button"
-import { Github, ExternalLink, ChevronLeft, ChevronRight, Code } from "lucide-react"
+import { Github, ExternalLink, ChevronLeft, ChevronRight, Code, Linkedin } from "lucide-react"
 
 interface Project {
   id: number
@@ -14,12 +15,42 @@ interface Project {
   techStack: string[]
   githubUrl: string
   liveUrl?: string
+  image?: string
+  linkedinUrl?: string
 }
 
 export default function Projects() {
   const projects: Project[] = [
     {
       id: 1,
+      title: "SupportHub AI",
+      description:
+        "AI co-pilot for support agents using Gemini for automated ticket triage and summarization. Features a real-time SPA front-end (Vue.js, Inertia.js), secure multi-tenancy, and high-performance background jobs with Laravel Jobs.",
+      techStack: ["Laravel", "Vue.js", "Inertia.js", "Gemini", "Laragents"],
+      githubUrl: "https://github.com/dipherent1/PHP_learning/tree/main/PHP/phase3/support-hub-ai",
+      image: "/image/supporthub-ai-1.jpg",
+    },
+    {
+      id: 2,
+      title: "Hyprland AI Assistant",
+      description:
+        "Native AI desktop assistant for Linux built with Golang and the Flyt framework. Reduces workflow friction for common AI tasks like code generation and image analysis by over 75% by integrating directly with Google's Gemini API for multimodal interactions.",
+      techStack: ["Golang", "Flyt", "Gemini API", "Linux"],
+      githubUrl: "https://github.com/dipherent1/ai_wraper",
+      image: "/image/fedora-copilot.jpg",
+      linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7385968582125576192/",
+    },
+    {
+      id: 3,
+      title: "Info-Stream: AI-Powered Alert Engine for Telegram",
+      description:
+        "A production-ready Telegram bot that transforms high-volume chats into a personalized intelligence feed. Features AI-powered semantic search with Gemini & pgvector, a decoupled microservices-style architecture, and a robust data layer using SQLAlchemy and the Unit of Work pattern.",
+      techStack: ["Python", "FastAPI", "Gemini API", "PostgreSQL", "pgvector", "SQLAlchemy", "Telethon", "AWS", "Sentry"],
+      githubUrl: "https://github.com/dipherent1/Tg_wrapper",
+      image: "/image/info-image-1.jpg",
+    },
+    {
+      id: 4,
       title: "Kesbekes 2.0",
       description:
         "Real-time Telegram Bot with Redis, Go, and AI filtering capabilities for content moderation and user interaction.",
@@ -27,7 +58,7 @@ export default function Projects() {
       githubUrl: "https://github.com/dipherent1/Kesbekes-2.0",
     },
     {
-      id: 2,
+      id: 5,
       title: "Smart Bike Rack",
       description:
         "IoT system with ESP32 and Python backend for monitoring and managing bike racks with real-time status updates.",
@@ -36,21 +67,14 @@ export default function Projects() {
       liveUrl: "https://sites.google.com/view/smartbikerack/description",
     },
     {
-      id: 3,
+      id: 6,
       title: "Kesbekes WebApp",
       description:
         "Scheduling application with Natural Language Processing capabilities built with Django and modern frontend technologies.",
       techStack: ["Django", "NLP", "PostgreSQL", "React", "Redux"],
       githubUrl: "https://github.com/dipherent1/Kesbekes",
     },
-    {
-      id: 4,
-      title: "AI Code Assistant",
-      description:
-        "A tool that helps developers write better code by providing suggestions and identifying potential bugs.",
-      techStack: ["Python", "FastAPI", "Machine Learning", "React", "TypeScript"],
-      githubUrl: "https://github.com",
-    },
+    
   ]
 
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -77,8 +101,19 @@ export default function Projects() {
         {currentProjects.map((project) => (
           <GlassCard key={project.id} className="flex flex-col h-full group depth-card">
             <div className="depth-content">
-              <div className="flex items-center justify-center h-48 mb-4 bg-gradient-to-br from-deep-blue/30 to-mint-green/30 rounded-md overflow-hidden gradient-animate">
-                <Code className="h-16 w-16 text-terminal-green opacity-50 group-hover:opacity-100 transition-opacity" />
+              <div className="relative h-48 mb-4 rounded-md overflow-hidden">
+                {project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center h-full bg-gradient-to-br from-deep-blue/30 to-mint-green/30 gradient-animate">
+                    <Code className="h-16 w-16 text-terminal-green opacity-50 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                )}
               </div>
 
               <h3 className="text-xl font-bold mb-2 gradient-text">{project.title}</h3>
@@ -119,6 +154,20 @@ export default function Projects() {
                     <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-4 w-4 mr-1" />
                       Demo
+                    </a>
+                  </Button>
+                )}
+                {project.linkedinUrl && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1 border-terminal-green/50 text-terminal-green hover:bg-terminal-green/10 glitch-hover"
+                    data-text="Post"
+                    asChild
+                  >
+                    <a href={project.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                      <Linkedin className="h-4 w-4 mr-1" />
+                      Post
                     </a>
                   </Button>
                 )}

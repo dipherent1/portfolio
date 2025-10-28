@@ -56,9 +56,12 @@ export default function About() {
                     size="sm"
                     variant="outline"
                     className="bg-black/50 border-terminal-green/50 text-terminal-green hover:bg-terminal-green/20"
+                    asChild
                   >
-                    <Download className="h-3 w-3 mr-1" />
-                    Resume
+                    <a href="/files/resume.pdf" download="Binyam_Mulat_Resume.pdf">
+                      <Download className="h-3 w-3 mr-1" />
+                      Resume
+                    </a>
                   </Button>
                 </div>
               </div>
