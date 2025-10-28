@@ -115,18 +115,26 @@ export default function Skills() {
 
   // Enhanced skill categories with detailed information
   const skillCategories = [
-    {
-      title: "Backend",
-      icon: <Server className="h-6 w-6" />,
+     {
+      title: "Programming",
+      icon: <Code className="h-6 w-6" />,
       skills: [
+
         { name: "Golang", level: 85, featured: true, description: "High-performance backend services and APIs" },
         { name: "FastAPI", level: 92, featured: true, description: "Modern, fast web framework for building APIs" },
         { name: "Django", level: 88, description: "Full-featured web framework for rapid development" },
+        { name: "Laravel", level: 80, description: "PHP framework for web application development" },
+        { name: "C", level: 85, description: "Systems programming and embedded applications" },
+        { name: "C++", level: 80, description: "Performance-critical applications and systems" },
+        { name: "JavaScript", level: 75, description: "Frontend and Node.js development" },
+        { name: "TypeScript", level: 72, description: "Type-safe JavaScript for larger applications" },
+        { name: "HTML & CSS", level: 78, description: "Web structure and styling" },
+        { name: "React", level: 80, featured: true, description: "Building dynamic user interfaces" },
+        { name: "SQL", level: 88, description: "Database querying and management" },
+        { name: "Data Structures and Algorithms", level: 90, featured: true, description: "Efficient organization and storage of data" },
         { name: "MongoDB", level: 80, description: "NoSQL database for flexible data storage" },
         { name: "PostgreSQL", level: 85, featured: true, description: "Robust relational database with advanced features" },
         { name: "Redis", level: 78, description: "In-memory data structure store for caching" },
-        { name: "RESTful APIs", level: 90, description: "Design and implementation of REST architecture" },
-        { name: "GraphQL", level: 75, description: "Query language for APIs with flexible data fetching" },
       ],
     },
     {
@@ -141,20 +149,7 @@ export default function Skills() {
         { name: "PyTorch", level: 78, description: "Deep learning framework for research and production" },
       ],
     },
-    {
-      title: "Programming",
-      icon: <Code className="h-6 w-6" />,
-      skills: [
-        { name: "Python", level: 95, featured: true, description: "Primary language for backend and ML development" },
-        { name: "C", level: 85, description: "Systems programming and embedded applications" },
-        { name: "C++", level: 80, description: "Performance-critical applications and systems" },
-        { name: "JavaScript", level: 75, description: "Frontend and Node.js development" },
-        { name: "TypeScript", level: 72, description: "Type-safe JavaScript for larger applications" },
-        { name: "SQL", level: 88, description: "Database querying and management" },
-        { name: "Data Structures", level: 90, featured: true, description: "Efficient organization and storage of data" },
-        { name: "Algorithms", level: 88, featured: true, description: "Problem-solving and optimization techniques" },
-      ],
-    },
+   
     {
       title: "Mechatronics/IoT",
       icon: <Cpu className="h-6 w-6" />,
@@ -166,6 +161,8 @@ export default function Skills() {
         { name: "Sensors", level: 88, description: "Integration of various sensors for data collection" },
         { name: "Actuators", level: 80, description: "Control of motors, servos, and other mechanical components" },
         { name: "PCB Design", level: 70, description: "Creating custom circuit boards for electronics" },
+        { name: "Robotics", level: 78, description: "Design and programming of robotic systems" },
+        { name: "Calculus", level: 80, description: "Mathematical foundation for engineering and physics" },
       ],
     },
     {
@@ -178,7 +175,6 @@ export default function Skills() {
         { name: "CI/CD", level: 80, description: "Automated testing and deployment pipelines" },
         { name: "Linux", level: 88, featured: true, description: "Operating system for servers and development" },
         { name: "Bash", level: 82, description: "Shell scripting for automation" },
-        { name: "VS Code", level: 95, description: "Primary code editor with custom extensions" },
         { name: "Postman", level: 85, description: "API testing and documentation tool" },
       ],
     },

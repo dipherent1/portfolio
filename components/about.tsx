@@ -119,22 +119,19 @@ export default function About() {
 
             {/* Bio Tab */}
             {activeTab === 'bio' && (
-              <div className="prose prose-invert max-w-none animate-fadeIn">
+              <div className="prose prose-invert max-w-none animate-fadeIn prose-p:leading-relaxed space-y-6">
                 <p className="text-lg">
-                  Hello! I'm <span className="gradient-text font-semibold">Binyam Mulat Abegaz</span>, a Fullstack developer
-                  with a strong foundation in mechatronics engineering. I specialize in building scalable and efficient
-                  backend systems using modern technologies.
+                  Hello! I'm <span className="gradient-text font-semibold">Binyam Mulat Abegaz</span>, a Fullstack Engineer at heart. My passion for innovation is what led me to study Mechatronics Engineering, as I believe it's the perfect field for bringing creative ideas to life by blending hardware and software.
                 </p>
                 <p>
-                  My journey in tech began with a fascination for how software and hardware interact. This led me to explore
-                  mechatronics engineering, where I gained hands-on experience with embedded systems and IoT devices.
+                  While I specialize in building scalable and efficient software systems, my background in mechatronics gives me a unique perspective on creating innovative solutions. I have hands-on experience with embedded systems and IoT, which fuels my interest in building technology that interacts with the physical world.
                 </p>
                 <p>
-                  Currently, I'm focused on developing robust backend solutions and exploring AI applications. I'm
+                  Currently, I'm focused on developing robust Fullstack solutions and exploring AI applications. I'm
                   passionate about clean code, system architecture, and creating technology that solves real-world problems.
                 </p>
                 <p>
-                  With expertise in Python, Go, and various backend frameworks, I enjoy building systems that are not only
+                  With expertise in Python, Go, Laravel and various fullstack frameworks, I enjoy building systems that are not only
                   functional but also maintainable and scalable. My background in mechatronics gives me a unique perspective
                   on how software interacts with the physical world, which is particularly valuable in IoT and embedded systems projects.
                 </p>
@@ -216,6 +213,18 @@ export default function About() {
                         <p className="text-sm text-gray-400">Addis Ababa University • 2022-2024</p>
                         <p className="text-sm text-gray-300 mt-1">
                           Focused on the integration of mechanical, electronic, and software systems. Completed a capstone project on Smart Bike Rack system.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex hover:translate-x-1 transition-transform">
+                      <div className="mr-4 mt-1">
+                        <GraduationCap className="h-5 w-5 text-mint-green" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold">Coding School</h4>
+                        <p className="text-sm text-gray-400">Africa to Silicon Valley • 11/2023 – 11/2024 | Addis Ababa, Ethiopia</p>
+                        <p className="text-sm text-gray-300 mt-1">
+                          Solved more than 800 problems on Leetcode and Codeforces and spent over 1,000 hours of DSA training.
                         </p>
                       </div>
                     </div>
@@ -309,7 +318,7 @@ export default function About() {
                   <h3 className="text-lg font-bold gradient-text mb-4">Stats</h3>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">700+</div>
+                      <div className="text-3xl font-bold text-terminal-green">800+</div>
                       <div className="text-sm text-gray-400">DSA Problems Solved</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
@@ -317,7 +326,7 @@ export default function About() {
                       <div className="text-sm text-gray-400">Projects Completed</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
-                      <div className="text-3xl font-bold text-terminal-green">2+</div>
+                      <div className="text-3xl font-bold text-terminal-green">3+</div>
                       <div className="text-sm text-gray-400">Years Experience</div>
                     </div>
                     <div className="bg-black/30 border border-white/10 rounded-lg p-4 text-center hover:border-terminal-green/50 transition-colors">
