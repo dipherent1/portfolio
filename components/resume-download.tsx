@@ -29,7 +29,7 @@ export default function ResumeDownload() {
               className="border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
               asChild
             >
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+              <a href="/files/resume.pdf" target="_blank" rel="noopener noreferrer">
                 <Eye className="h-4 w-4 mr-2" />
                 View
               </a>
@@ -41,7 +41,7 @@ export default function ResumeDownload() {
               className="border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
               asChild
             >
-              <a href="/resume.pdf" download="Binyam_Mulat_Resume.pdf">
+              <a href="/files/resume.pdf" download="Binyam_Mulat_Resume.pdf">
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </a>

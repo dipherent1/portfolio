@@ -96,8 +96,11 @@ export default function Navbar() {
               <Button
                 variant="outline"
                 className="border-terminal-green text-terminal-green hover:bg-terminal-green/10"
+                asChild
               >
-                Resume
+                <a href="/files/resume.pdf" download="Binyam_Mulat_Resume.pdf">
+                  Resume
+                </a>
               </Button>
             </div>
           </div>
@@ -135,8 +138,11 @@ export default function Navbar() {
             <Button
               variant="outline"
               className="w-full mt-2 border-terminal-green text-terminal-green hover:bg-terminal-green/10"
+              asChild
             >
-              Resume
+              <a href="/files/resume.pdf" download="Binyam_Mulat_Resume.pdf">
+                Resume
+              </a>
             </Button>
           </div>
         </div>
