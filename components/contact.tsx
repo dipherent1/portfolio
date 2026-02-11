@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, ValidationError } from "@formspree/react";
 import Container from "@/components/ui/container";
 import SectionHeading from "@/components/ui/section-heading";
@@ -32,7 +32,7 @@ export default function Contact() {
   const [showChatIdHelper, setShowChatIdHelper] = useState(false);
 
   // Using Formspree hook with your form ID
-  const [formspreeState, handleFormspreeSubmit] = useForm("xpwporvg");
+  const [formspreeState, handleFormspreeSubmit, resetFormspree] = useForm("xpwporvg");
   const { submitting, succeeded, errors } = formspreeState;
 
   // Function to get chat ID
@@ -215,24 +215,22 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Create form data for Formspree submission
-    const formData = {
-      name: formState.name,
-      email: formState.email,
-      subject: formState.subject || "New contact form submission",
-      message: formState.message,
-    };
-
-    // Submit the form using Formspree
     await handleFormspreeSubmit(e);
+  };
 
-    // If submission was successful, try to send to Telegram and reset the form
-    if (succeeded) {
+  useEffect(() => {
+    if (succeeded && (formState.name || formState.email || formState.message)) {
+      // Create form data for Telegram
+      const formData = {
+        name: formState.name,
+        email: formState.email,
+        subject: formState.subject || "New contact form submission",
+        message: formState.message,
+      };
+
       // Try to send to Telegram in the background
       sendToTelegram(formData).catch((error) => {
         console.error("Failed to send to Telegram:", error);
-        // We don't need to show this error to the user as the form was still submitted successfully
       });
 
       // Reset the form
@@ -245,11 +243,10 @@ export default function Contact() {
 
       // Clear success message after 8 seconds
       setTimeout(() => {
-        // Reset the Formspree state (this is not directly possible with the hook)
-        // We'll rely on the UI to handle this
+        resetFormspree();
       }, 8000);
     }
-  };
+  }, [succeeded, resetFormspree]);
 
   return (
     <Container>
