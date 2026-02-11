@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import Container from "@/components/ui/container"
-import SectionHeading from "@/components/ui/section-heading"
-import GlassCard from "@/components/ui/glass-card"
-import TerminalBox from "@/components/ui/terminal-box"
-import { Button } from "@/components/ui/button"
+import { useState, useRef, useEffect } from "react";
+import Container from "@/components/ui/container";
+import SectionHeading from "@/components/ui/section-heading";
+import GlassCard from "@/components/ui/glass-card";
+import TerminalBox from "@/components/ui/terminal-box";
+import { Button } from "@/components/ui/button";
 import {
-  Server,
   Brain,
   Code,
   Cpu,
@@ -17,30 +16,38 @@ import {
   ChevronRight,
   Terminal,
   Star,
-  X
-} from "lucide-react"
+} from "lucide-react";
 
 interface Skill {
-  name: string
-  level: number
-  featured?: boolean
-  description?: string
+  name: string;
+  featured?: boolean;
+  description?: string;
 }
 
 interface SkillCategoryProps {
-  title: string
-  icon: React.ReactNode
-  skills: Skill[]
-  searchTerm: string
-  showFeaturedOnly: boolean
-  onSkillClick: (skill: Skill) => void
-  isVisible: boolean
+  title: string;
+  icon: React.ReactNode;
+  skills: Skill[];
+  searchTerm: string;
+  showFeaturedOnly: boolean;
+  isVisible: boolean;
 }
 
-function SkillCategory({ title, icon, skills, searchTerm, showFeaturedOnly, onSkillClick, isVisible }: SkillCategoryProps) {
+function SkillCategory({
+  title,
+  icon,
+  skills,
+  searchTerm,
+  showFeaturedOnly,
+  isVisible,
+}: SkillCategoryProps) {
+  const [showAll, setShowAll] = useState(false);
+
   // Filter skills based on search term and featured flag
-  const filteredSkills = skills.filter(skill => {
-    const matchesSearch = skill.name.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredSkills = skills.filter((skill) => {
+    const matchesSearch = skill.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
     const matchesFeatured = !showFeaturedOnly || skill.featured;
     return matchesSearch && matchesFeatured;
   });
@@ -49,65 +56,61 @@ function SkillCategory({ title, icon, skills, searchTerm, showFeaturedOnly, onSk
     return null; // Don't render empty categories
   }
 
+  const displayedSkills = showAll ? filteredSkills : filteredSkills.slice(0, 5);
+
   return (
     <GlassCard
-      className={`h-full depth-card transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      className={`h-full depth-card transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
     >
-      <div className="depth-content">
+      <div className="depth-content flex flex-col h-full">
         <div className="flex items-center mb-4 text-terminal-green">
           {icon}
           <h3 className="text-xl font-bold ml-2 gradient-text">{title}</h3>
-          <span className="ml-auto text-xs text-gray-400">{filteredSkills.length} skills</span>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {filteredSkills.map((skill) => (
-            <button
+        <div className="flex flex-wrap gap-2 mb-4">
+          {displayedSkills.map((skill) => (
+            <div
               key={skill.name}
-              onClick={() => onSkillClick(skill)}
-              className={`group relative px-3 py-1 bg-black/30 border ${skill.featured ? 'border-terminal-green/50' : 'border-white/10'} rounded-full text-sm hover:bg-terminal-green/20 hover:border-terminal-green/50 transition-colors hover:translate-y-[-2px] hover:shadow-[0_0_10px_rgba(0,255,173,0.3)] inline-block`}
+              className="group relative px-3 py-1 bg-black/30 border border-terminal-green/50 rounded-full text-sm hover:bg-terminal-green/20 hover:border-terminal-green/50 transition-colors hover:translate-y-[-2px] hover:shadow-[0_0_10px_rgba(0,255,173,0.3)] inline-block cursor-default"
             >
-              {skill.featured && <Star className="h-3 w-3 inline-block mr-1 text-terminal-green" />}
+              <Star className="h-3 w-3 inline-block mr-1 text-terminal-green" />
               {skill.name}
-              <span
-                className="ml-2 w-8 h-1 bg-black/50 rounded-full inline-block align-middle overflow-hidden"
-                title={`Proficiency: ${skill.level}%`}
-              >
-                <span
-                  className="h-full bg-terminal-green block"
-                  style={{ width: `${skill.level}%` }}
-                ></span>
-              </span>
 
               {/* Tooltip on hover */}
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-black/90 border border-terminal-green/30 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                <div className="font-bold text-terminal-green mb-1">{skill.name}</div>
-                <div className="flex justify-between items-center mb-1">
-                  <span>Proficiency:</span>
-                  <span>{skill.level}%</span>
+              {skill.description && (
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 p-2 bg-black/90 border border-terminal-green/30 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                  <div className="font-bold text-terminal-green mb-1">
+                    {skill.name}
+                  </div>
+                  <div className="mt-1 text-gray-400">{skill.description}</div>
                 </div>
-                <div className="w-full h-1 bg-black/50 rounded-full overflow-hidden mb-1">
-                  <div
-                    className="h-full bg-gradient-to-r from-deep-blue to-mint-green"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
-                {skill.description && <div className="mt-1 text-gray-400">{skill.description}</div>}
-              </div>
-            </button>
+              )}
+            </div>
           ))}
         </div>
+
+        {filteredSkills.length > 5 && (
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="mt-auto text-xs text-terminal-green hover:underline flex items-center"
+          >
+            {showAll ? "Show Less" : "Show More"}
+            <ChevronRight
+              className={`ml-1 h-3 w-3 transition-transform ${showAll ? "rotate-90" : ""}`}
+            />
+          </button>
+        )}
       </div>
     </GlassCard>
-  )
+  );
 }
 
 export default function Skills() {
   // State for filtering and interaction
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [visibleCategories, setVisibleCategories] = useState<number[]>([]);
-  const [terminalCommand, setTerminalCommand] = useState('ls -la skills/');
+  const [terminalCommand, setTerminalCommand] = useState("ls -la skills/");
   const [terminalOutput, setTerminalOutput] = useState<string[]>([]);
 
   // Refs for intersection observer
@@ -115,94 +118,296 @@ export default function Skills() {
 
   // Enhanced skill categories with detailed information
   const skillCategories = [
-     {
+    {
       title: "Programming",
       icon: <Code className="h-6 w-6" />,
       skills: [
-
-        { name: "Golang", level: 85, featured: true, description: "High-performance backend services and APIs" },
-        { name: "FastAPI", level: 92, featured: true, description: "Modern, fast web framework for building APIs" },
-        { name: "Django", level: 88, featured: true, description: "Full-featured web framework for rapid development" },
-        { name: "Laravel", level: 80, featured: true, description: "PHP framework for web application development" },
-        { name: "TypeScript", level: 72, featured: true, description: "Type-safe JavaScript for larger applications" },
-        { name: "React", level: 80, featured: true, description: "Building dynamic user interfaces" },
-        { name: "HTML & CSS", level: 78, featured: true, description: "Web structure and styling" },
-        { name: "Data Structures and Algorithms", level: 90, featured: true, description: "Efficient organization and storage of data" },
-        { name: "JavaScript", level: 75, description: "Frontend and Node.js development" },
-        { name: "C", level: 85, description: "Systems programming and embedded applications" },
-        { name: "C++", level: 80, description: "Performance-critical applications and systems" },
-        { name: "SQL", level: 88, description: "Database querying and management" },
-        { name: "MongoDB", level: 80, description: "NoSQL database for flexible data storage" },
-        { name: "PostgreSQL", level: 85, featured: true, description: "Robust relational database with advanced features" },
-        { name: "Redis", level: 78, description: "In-memory data structure store for caching" },
+        {
+          name: "Golang",
+          level: 85,
+          featured: true,
+          description: "High-performance backend services and APIs",
+        },
+        {
+          name: "FastAPI",
+          level: 92,
+          featured: true,
+          description: "Modern, fast web framework for building APIs",
+        },
+        {
+          name: "Django",
+          level: 88,
+          featured: true,
+          description: "Full-featured web framework for rapid development",
+        },
+        {
+          name: "Laravel",
+          level: 80,
+          featured: true,
+          description: "PHP framework for web application development",
+        },
+        {
+          name: "TypeScript",
+          level: 72,
+          featured: true,
+          description: "Type-safe JavaScript for larger applications",
+        },
+        {
+          name: "React",
+          level: 80,
+          featured: true,
+          description: "Building dynamic user interfaces",
+        },
+        {
+          name: "HTML & CSS",
+          level: 78,
+          featured: true,
+          description: "Web structure and styling",
+        },
+        {
+          name: "Data Structures and Algorithms",
+          level: 90,
+          featured: true,
+          description: "Efficient organization and storage of data",
+        },
+        {
+          name: "PostgreSQL",
+          level: 85,
+          featured: true,
+          description: "Robust relational database with advanced features",
+        },
+        {
+          name: "JavaScript",
+          level: 75,
+          description: "Frontend and Node.js development",
+        },
+        {
+          name: "C",
+          level: 85,
+          description: "Systems programming and embedded applications",
+        },
+        {
+          name: "C++",
+          level: 80,
+          description: "Performance-critical applications and systems",
+        },
+        {
+          name: "SQL",
+          level: 88,
+          description: "Database querying and management",
+        },
+        {
+          name: "MongoDB",
+          level: 80,
+          description: "NoSQL database for flexible data storage",
+        },
+        {
+          name: "Redis",
+          level: 78,
+          description: "In-memory data structure store for caching",
+        },
       ],
     },
     {
       title: "AI/ML",
       icon: <Brain className="h-6 w-6" />,
       skills: [
-        { name: "AI Agent Development", level: 88, featured: true, description: "Building intelligent autonomous agents" },
-        { name: "Machine Learning", level: 82, featured: true, description: "Algorithms and models for predictive analytics" },
-        { name: "NLP (Gemini API)", level: 85, featured: true, description: "Natural language processing with Google's Gemini" },
-        { name: "Computer Vision", level: 75, description: "Image recognition and processing systems" },
-        { name: "TensorFlow", level: 80, description: "ML framework for building and deploying models" },
-        { name: "PyTorch", level: 78, description: "Deep learning framework for research and production" },
+        {
+          name: "AI Agent Development",
+          level: 88,
+          featured: true,
+          description: "Building intelligent autonomous agents",
+        },
+        {
+          name: "Machine Learning",
+          level: 82,
+          featured: true,
+          description: "Algorithms and models for predictive analytics",
+        },
+        {
+          name: "NLP (Gemini API)",
+          level: 85,
+          featured: true,
+          description: "Natural language processing with Google's Gemini",
+        },
+        {
+          name: "Computer Vision",
+          level: 75,
+          description: "Image recognition and processing systems",
+        },
+        {
+          name: "TensorFlow",
+          level: 80,
+          description: "ML framework for building and deploying models",
+        },
+        {
+          name: "PyTorch",
+          level: 78,
+          description: "Deep learning framework for research and production",
+        },
       ],
     },
-   
+
     {
       title: "Mechatronics/IoT",
       icon: <Cpu className="h-6 w-6" />,
       skills: [
-        { name: "Arduino", level: 90, featured: true, description: "Prototyping platform for electronics projects" },
-        { name: "ESP-32", level: 85, featured: true, description: "WiFi & Bluetooth enabled microcontroller" },
-        { name: "Solidworks", level: 75, featured: true, description: "3D CAD design for mechanical components" },
-        { name: "Robotics", level: 78, featured: true, description: "Design and programming of robotic systems" },
-        { name: "Embedded Systems", level: 82, description: "Programming microcontrollers for specific tasks" },
-        { name: "Sensors", level: 88, description: "Integration of various sensors for data collection" },
-        { name: "Actuators", level: 80, description: "Control of motors, servos, and other mechanical components" },
-        { name: "PCB Design", level: 70, description: "Creating custom circuit boards for electronics" },
-        { name: "Calculus", level: 80, description: "Mathematical foundation for engineering and physics" },
+        {
+          name: "Arduino",
+          level: 90,
+          featured: true,
+          description: "Prototyping platform for electronics projects",
+        },
+        {
+          name: "ESP-32",
+          level: 85,
+          featured: true,
+          description: "WiFi & Bluetooth enabled microcontroller",
+        },
+        {
+          name: "Solidworks",
+          level: 75,
+          featured: true,
+          description: "3D CAD design for mechanical components",
+        },
+        {
+          name: "Robotics",
+          level: 78,
+          featured: true,
+          description: "Design and programming of robotic systems",
+        },
+        {
+          name: "Embedded Systems",
+          level: 82,
+          description: "Programming microcontrollers for specific tasks",
+        },
+        {
+          name: "Sensors",
+          level: 88,
+          description: "Integration of various sensors for data collection",
+        },
+        {
+          name: "Actuators",
+          level: 80,
+          description:
+            "Control of motors, servos, and other mechanical components",
+        },
+        {
+          name: "PCB Design",
+          level: 70,
+          description: "Creating custom circuit boards for electronics",
+        },
+        {
+          name: "Calculus",
+          level: 80,
+          description: "Mathematical foundation for engineering and physics",
+        },
       ],
     },
     {
       title: "Tools",
       icon: <Tool className="h-6 w-6" />,
       skills: [
-        { name: "Git", level: 92, featured: true, description: "Version control for code management" },
-        { name: "GitHub", level: 90, featured: true, description: "Collaboration platform for code hosting" },
-        { name: "Docker", level: 85, featured: true, description: "Containerization for consistent deployments" },
-        { name: "Linux", level: 88, featured: true, description: "Operating system for servers and development" },
-        { name: "Postman", level: 85, featured: true, description: "API testing and documentation tool" },
-        { name: "CI/CD", level: 80, description: "Automated testing and deployment pipelines" },
-        { name: "Bash", level: 82, description: "Shell scripting for automation" },
+        {
+          name: "Git",
+          level: 92,
+          featured: true,
+          description: "Version control for code management",
+        },
+        {
+          name: "GitHub",
+          level: 90,
+          featured: true,
+          description: "Collaboration platform for code hosting",
+        },
+        {
+          name: "Docker",
+          level: 85,
+          featured: true,
+          description: "Containerization for consistent deployments",
+        },
+        {
+          name: "Linux",
+          level: 88,
+          featured: true,
+          description: "Operating system for servers and development",
+        },
+        {
+          name: "Postman",
+          level: 85,
+          featured: true,
+          description: "API testing and documentation tool",
+        },
+        {
+          name: "CI/CD",
+          level: 80,
+          description: "Automated testing and deployment pipelines",
+        },
+        {
+          name: "Bash",
+          level: 82,
+          description: "Shell scripting for automation",
+        },
       ],
     },
     {
       title: "Soft Skills",
       icon: <Brain className="h-6 w-6" />,
       skills: [
-        { name: "Problem Solving", level: 95, featured: true, description: "Analytical approach to complex challenges" },
-        { name: "Communication", level: 85, description: "Clear and effective technical communication" },
-        { name: "Teamwork", level: 90, description: "Collaborative work in diverse teams" },
-        { name: "Time Management", level: 88, description: "Efficient prioritization and task completion" },
-        { name: "Adaptability", level: 92, featured: true, description: "Quick learning and adaptation to new technologies" },
-        { name: "Leadership", level: 80, description: "Guiding teams and mentoring junior developers" },
+        {
+          name: "Problem Solving",
+          level: 95,
+          featured: true,
+          description: "Analytical approach to complex challenges",
+        },
+        {
+          name: "Communication",
+          level: 85,
+          featured: true,
+          description: "Clear and effective technical communication",
+        },
+        {
+          name: "Adaptability",
+          level: 92,
+          featured: true,
+          description: "Quick learning and adaptation to new technologies",
+        },
+        {
+          name: "Leadership",
+          level: 80,
+          featured: true,
+          description: "Guiding teams and mentoring junior developers",
+        },
+        {
+          name: "Teamwork",
+          level: 90,
+          description: "Collaborative work in diverse teams",
+        },
+        {
+          name: "Time Management",
+          level: 88,
+          description: "Efficient prioritization and task completion",
+        },
       ],
     },
   ];
 
   // Set up intersection observer for infinity scroll effect
   useEffect(() => {
-    categoryRefs.current = categoryRefs.current.slice(0, skillCategories.length);
+    categoryRefs.current = categoryRefs.current.slice(
+      0,
+      skillCategories.length,
+    );
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const index = parseInt(entry.target.getAttribute('data-index') || '0');
+          const index = parseInt(
+            entry.target.getAttribute("data-index") || "0",
+          );
 
           if (entry.isIntersecting) {
-            setVisibleCategories(prev => {
+            setVisibleCategories((prev) => {
               if (!prev.includes(index)) {
                 return [...prev, index];
               }
@@ -211,7 +416,7 @@ export default function Skills() {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     categoryRefs.current.forEach((ref, index) => {
@@ -231,31 +436,33 @@ export default function Skills() {
 
   // Process terminal command
   const processTerminalCommand = (cmd: string) => {
-    if (cmd === 'clear') {
+    if (cmd === "clear") {
       setTerminalOutput([]);
-      setTerminalCommand('');
+      setTerminalCommand("");
       return;
     }
 
     // Process terminal commands
-    if (cmd.startsWith('find ')) {
-      const searchTerm = cmd.replace('find ', '').trim();
+    if (cmd.startsWith("find ")) {
+      const searchTerm = cmd.replace("find ", "").trim();
       setSearchTerm(searchTerm);
-      const results = skillCategories.flatMap(category =>
-        category.skills.filter(skill =>
-          skill.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+      const results = skillCategories.flatMap((category) =>
+        category.skills.filter((skill) =>
+          skill.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        ),
       );
 
-      const newOutput = [`Found ${results.length} skills matching "${searchTerm}":`];
-      results.forEach(skill => {
-        newOutput.push(`- ${skill.name} (${skill.level}%)`);
+      const newOutput = [
+        `Found ${results.length} skills matching "${searchTerm}":`,
+      ];
+      results.forEach((skill) => {
+        newOutput.push(`- ${skill.name}`);
       });
       setTerminalOutput(newOutput);
-    } else if (cmd === 'ls -la skills/') {
-      const allSkills = skillCategories.flatMap(category => category.skills);
+    } else if (cmd === "ls -la skills/") {
+      const allSkills = skillCategories.flatMap((category) => category.skills);
       const totalSkills = allSkills.length;
-      const featuredSkills = allSkills.filter(skill => skill.featured).length;
+      const featuredSkills = allSkills.filter((skill) => skill.featured).length;
 
       setTerminalOutput([
         `Found ${totalSkills} total skills across ${skillCategories.length} categories`,
@@ -263,29 +470,33 @@ export default function Skills() {
         ``,
         `Use 'find <keyword>' to search for specific skills`,
         `Use 'featured' to show only featured skills`,
-        `Use 'all' to show all skills`
+        `Use 'all' to show all skills`,
       ]);
-    } else if (cmd === 'featured') {
+    } else if (cmd === "featured") {
       setShowFeaturedOnly(true);
-      const featuredSkills = skillCategories.flatMap(category =>
-        category.skills.filter(skill => skill.featured)
+      const featuredSkills = skillCategories.flatMap((category) =>
+        category.skills.filter((skill) => skill.featured),
       );
-      setTerminalOutput([`Displaying ${featuredSkills.length} featured skills`]);
-    } else if (cmd === 'all') {
-      setShowFeaturedOnly(false);
-      const allSkills = skillCategories.flatMap(category => category.skills);
-      setTerminalOutput([`Displaying all ${allSkills.length} skills`]);
-    } else if (cmd === 'help') {
       setTerminalOutput([
-        'Available commands:',
-        '  ls -la skills/           - Show skills summary',
-        '  find <keyword>           - Search for skills by keyword',
-        '  featured                 - Show only featured skills',
-        '  all                      - Show all skills',
-        '  clear                    - Clear terminal output'
+        `Displaying ${featuredSkills.length} featured skills`,
+      ]);
+    } else if (cmd === "all") {
+      setShowFeaturedOnly(false);
+      const allSkills = skillCategories.flatMap((category) => category.skills);
+      setTerminalOutput([`Displaying all ${allSkills.length} skills`]);
+    } else if (cmd === "help") {
+      setTerminalOutput([
+        "Available commands:",
+        "  ls -la skills/           - Show skills summary",
+        "  find <keyword>           - Search for skills by keyword",
+        "  featured                 - Show only featured skills",
+        "  all                      - Show all skills",
+        "  clear                    - Clear terminal output",
       ]);
     } else {
-      setTerminalOutput(['Command not found. Type "help" for available commands.']);
+      setTerminalOutput([
+        'Command not found. Type "help" for available commands.',
+      ]);
     }
   };
 
@@ -298,14 +509,12 @@ export default function Skills() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Handle skill click
-  const handleSkillClick = (skill: Skill) => {
-    setSelectedSkill(skill);
-  };
-
   return (
     <Container>
-      <SectionHeading title="Skills" subtitle="My technical toolkit and areas of expertise" />
+      <SectionHeading
+        title="Skills"
+        subtitle="My technical toolkit and areas of expertise"
+      />
 
       {/* Interactive Controls */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
@@ -328,7 +537,11 @@ export default function Skills() {
           <Button
             variant={showFeaturedOnly ? "default" : "outline"}
             size="sm"
-            className={showFeaturedOnly ? "bg-terminal-green/20 text-terminal-green hover:bg-terminal-green/30" : "border-white/10 hover:border-terminal-green/50 hover:bg-terminal-green/10"}
+            className={
+              showFeaturedOnly
+                ? "bg-terminal-green/20 text-terminal-green hover:bg-terminal-green/30"
+                : "border-white/10 hover:border-terminal-green/50 hover:bg-terminal-green/10"
+            }
             onClick={() => setShowFeaturedOnly(true)}
           >
             <Star className="h-4 w-4 mr-2" />
@@ -337,7 +550,11 @@ export default function Skills() {
           <Button
             variant={!showFeaturedOnly ? "default" : "outline"}
             size="sm"
-            className={!showFeaturedOnly ? "bg-terminal-green/20 text-terminal-green hover:bg-terminal-green/30" : "border-white/10 hover:border-terminal-green/50 hover:bg-terminal-green/10"}
+            className={
+              !showFeaturedOnly
+                ? "bg-terminal-green/20 text-terminal-green hover:bg-terminal-green/30"
+                : "border-white/10 hover:border-terminal-green/50 hover:bg-terminal-green/10"
+            }
             onClick={() => setShowFeaturedOnly(false)}
           >
             <Filter className="h-4 w-4 mr-2" />
@@ -357,7 +574,7 @@ export default function Skills() {
                 value={terminalCommand}
                 onChange={(e) => setTerminalCommand(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     e.preventDefault();
                     processTerminalCommand(terminalCommand);
                   }
@@ -368,12 +585,19 @@ export default function Skills() {
             </div>
 
             {terminalOutput.map((line, index) => (
-              <div key={index} className={line.includes('cannot access') ? 'text-red-400' : ''}>
-                {line.startsWith('-') && line.includes('.skill') ? (
+              <div
+                key={index}
+                className={line.includes("cannot access") ? "text-red-400" : ""}
+              >
+                {line.startsWith("-") && line.includes(".skill") ? (
                   <div className="flex justify-between">
-                    <span>{line.split(' ').slice(0, -1).join(' ')}</span>
-                    <span className={line.includes('*') ? 'text-terminal-green' : ''}>
-                      {line.split(' ').pop()?.replace('*', ' ⭐')}
+                    <span>{line.split(" ").slice(0, -1).join(" ")}</span>
+                    <span
+                      className={
+                        line.includes("*") ? "text-terminal-green" : ""
+                      }
+                    >
+                      {line.split(" ").pop()?.replace("*", " ⭐")}
                     </span>
                   </div>
                 ) : (
@@ -390,9 +614,9 @@ export default function Skills() {
         {skillCategories.map((category, index) => (
           <div
             key={category.title}
-            ref={el => categoryRefs.current[index] = el}
+            ref={(el) => (categoryRefs.current[index] = el)}
             data-index={index}
-            className="skill-category-container animate-[fadeInUp_0.5s_ease-out_forwards]"
+            className="skill-category-container h-full animate-[fadeInUp_0.5s_ease-out_forwards]"
           >
             <SkillCategory
               title={category.title}
@@ -400,76 +624,11 @@ export default function Skills() {
               skills={category.skills}
               searchTerm={searchTerm}
               showFeaturedOnly={showFeaturedOnly}
-              onSkillClick={handleSkillClick}
               isVisible={visibleCategories.includes(index)}
             />
           </div>
         ))}
       </div>
-
-      {/* Skill Detail Modal */}
-      {selectedSkill && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="max-w-md w-full">
-            <GlassCard className="relative">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 right-2 hover:bg-terminal-green/10"
-                onClick={() => setSelectedSkill(null)}
-              >
-                <X className="h-5 w-5" />
-              </Button>
-
-              <div className="mb-4">
-                <h2 className="text-2xl font-bold gradient-text flex items-center">
-                  {selectedSkill.featured && <Star className="h-5 w-5 mr-2 text-terminal-green" />}
-                  {selectedSkill.name}
-                </h2>
-                <div className="mt-2 flex items-center">
-                  <span className="text-gray-400 mr-2">Proficiency:</span>
-                  <div className="flex-1 h-2 bg-black/50 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-deep-blue to-mint-green"
-                      style={{ width: `${selectedSkill.level}%` }}
-                    ></div>
-                  </div>
-                  <span className="ml-2 text-terminal-green">{selectedSkill.level}%</span>
-                </div>
-              </div>
-
-              {selectedSkill.description && (
-                <div className="mb-4">
-                  <h3 className="text-sm text-gray-400 mb-1">Description:</h3>
-                  <p>{selectedSkill.description}</p>
-                </div>
-              )}
-
-              <TerminalBox title="skill-info.sh" className="text-sm">
-                <div className="space-y-1">
-                  <div className="flex">
-                    <span className="text-terminal-green mr-2">$</span>
-                    <span>cat /skills/{selectedSkill.name.toLowerCase().replace(/ /g, '_')}.info</span>
-                  </div>
-                  <div className="pl-4">
-                    <p><span className="text-white">Name:</span> {selectedSkill.name}</p>
-                    <p><span className="text-white">Level:</span> {selectedSkill.level}/100</p>
-                    <p><span className="text-white">Category:</span> {skillCategories.find(category =>
-                      category.skills.some(skill => skill.name === selectedSkill.name)
-                    )?.title}</p>
-                    <p><span className="text-white">Featured:</span> {selectedSkill.featured ? 'Yes' : 'No'}</p>
-                  </div>
-                </div>
-              </TerminalBox>
-
-              <div className="mt-4 text-xs text-gray-400">
-                Click anywhere outside this card to close
-              </div>
-            </GlassCard>
-          </div>
-        </div>
-      )}
     </Container>
-  )
+  );
 }
-
