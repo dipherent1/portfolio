@@ -34,7 +34,10 @@ export default function Navbar() {
       });
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
 
     const sections = navItems.map((item) => item.href.substring(1));
     sections.forEach((sectionId) => {
