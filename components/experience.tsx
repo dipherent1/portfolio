@@ -346,16 +346,6 @@ export default function Experience() {
                   </p>
                 </div>
               </div>
-
-              <div className="flex items-start">
-                <Award className="h-5 w-5 text-terminal-green mr-3 mt-0.5" />
-                <div>
-                  <h4 className="font-medium">Achievements</h4>
-                  <p className="text-gray-400">
-                    15+ successful projects, 5+ AI models deployed
-                  </p>
-                </div>
-              </div>
             </div>
 
             <div className="mt-6 pt-6 border-t border-white/10">

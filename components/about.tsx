@@ -91,7 +91,7 @@ export default function About() {
               </p>
               <p>
                 <span className="text-terminal-green">$</span> Languages:{" "}
-                <span className="text-white">Python, Go, C++, Typescript</span>
+                <span className="text-white">Python, Go, C++, PHP</span>
               </p>
               <p>
                 <span className="text-terminal-green">$</span> Experience:{" "}

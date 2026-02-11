@@ -14,6 +14,7 @@ import {
   Code,
   Linkedin,
 } from "lucide-react";
+import ProjectCard from "@/components/project-card";
 
 interface Project {
   id: number;
@@ -33,14 +34,7 @@ export default function Projects() {
       title: "Echo — Activity Logger & Analytics",
       description:
         "Echo: An activity logger extension & Next.js platform. It captures browsing metadata, visualizes patterns with focus heatmaps, and uses AI to analyze content, calculating signal-to-noise ratios to distinguish deep work from distractions.",
-      techStack: [
-        "Manifest V3",
-        "Next.js",
-        "MongoDB Time Series",
-        "Chrome Extension",
-        "AI",
-        "Event-driven",
-      ],
+      techStack: ["Next.js", "MongoDB", "Chrome Extension", "AI"],
       githubUrl: "https://github.com/dipherent1/Echo-platform",
       liveUrl: "https://v0-personal-productivity-tracker-kd.vercel.app/",
       image: "/image/echo.png",
@@ -136,101 +130,17 @@ export default function Projects() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {currentProjects.map((project) => (
-          <GlassCard
-            key={project.id}
-            className="flex flex-col h-full group depth-card"
-          >
-            <div className="depth-content">
-              <div className="relative h-48 mb-4 rounded-md overflow-hidden">
-                {project.image ? (
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full bg-gradient-to-br from-deep-blue/30 to-mint-green/30 gradient-animate">
-                    <Code className="h-16 w-16 text-terminal-green opacity-50 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                )}
-              </div>
-
-              <h3 className="text-xl font-bold mb-2 gradient-text">
-                {project.title}
-              </h3>
-              <p className="text-gray-300 mb-4 flex-grow">
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2 py-1 bg-black/30 border border-white/10 rounded-full text-xs hover:bg-terminal-green/20 hover:border-terminal-green/50 transition-all hover:translate-y-[-2px] inline-block"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-2 mt-auto">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="flex-1 border-terminal-green/50 text-terminal-green hover:bg-terminal-green/10 glitch-hover"
-                  data-text="Code"
-                  asChild
-                >
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Github className="h-4 w-4 mr-1" />
-                    Code
-                  </a>
-                </Button>
-                {project.liveUrl && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex-1 border-terminal-green/50 text-terminal-green hover:bg-terminal-green/10 glitch-hover"
-                    data-text="Demo"
-                    asChild
-                  >
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-1" />
-                      Demo
-                    </a>
-                  </Button>
-                )}
-                {project.linkedinUrl && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex-1 border-terminal-green/50 text-terminal-green hover:bg-terminal-green/10 glitch-hover"
-                    data-text="Post"
-                    asChild
-                  >
-                    <a
-                      href={project.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Linkedin className="h-4 w-4 mr-1" />
-                      Post
-                    </a>
-                  </Button>
-                )}
-              </div>
-            </div>
-          </GlassCard>
+        {currentProjects.map((project, index) => (
+          <ProjectCard
+            key={index}
+            title={project.title}
+            description={project.description}
+            technologies={project.techStack}
+            githubUrl={project.githubUrl}
+            liveUrl={project.liveUrl}
+            imageSrc={project.image || ""}
+            linkedinUrl={project.linkedinUrl}
+          />
         ))}
       </div>
 
