@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Container from "@/components/ui/container"
-import SectionHeading from "@/components/ui/section-heading"
-import GlassCard from "@/components/ui/glass-card"
-import TerminalBox from "@/components/ui/terminal-box"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import Container from "@/components/ui/container";
+import SectionHeading from "@/components/ui/section-heading";
+import GlassCard from "@/components/ui/glass-card";
+import TerminalBox from "@/components/ui/terminal-box";
+import { Button } from "@/components/ui/button";
 import {
   Code,
   Brain,
@@ -16,21 +16,21 @@ import {
   Award,
   ChevronRight,
   ExternalLink,
-  Terminal
-} from "lucide-react"
+  Terminal,
+} from "lucide-react";
 
 interface TimelineItemProps {
-  title: string
-  company: string
-  period: string
-  description: string
-  icon: React.ReactNode
-  location?: string
-  achievements?: string[]
-  skills?: string[]
-  link?: string
-  active?: boolean
-  onClick?: () => void
+  title: string;
+  company: string;
+  period: string;
+  description: string;
+  icon: React.ReactNode;
+  location?: string;
+  achievements?: string[];
+  skills?: string[];
+  link?: string;
+  active?: boolean;
+  onClick?: () => void;
 }
 
 function TimelineItem({
@@ -44,13 +44,13 @@ function TimelineItem({
   skills,
   link,
   active,
-  onClick
+  onClick,
 }: TimelineItemProps) {
   return (
     <div className="flex experience-timeline-item">
       <div className="flex flex-col items-center mr-4">
         <div
-          className={`flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-deep-blue/30 to-terminal-green/30 border ${active ? 'border-terminal-green' : 'border-terminal-green/30'} hover:shadow-[0_0_15px_rgba(0,255,173,0.5)] transition-all cursor-pointer experience-icon`}
+          className={`flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-deep-blue/30 to-terminal-green/30 border ${active ? "border-terminal-green" : "border-terminal-green/30"} hover:shadow-[0_0_15px_rgba(0,255,173,0.5)] transition-all cursor-pointer experience-icon`}
           onClick={onClick}
         >
           {icon}
@@ -58,7 +58,7 @@ function TimelineItem({
         <div className="w-px h-full bg-gradient-to-b from-terminal-green to-transparent"></div>
       </div>
       <GlassCard
-        className={`flex-1 mb-8 transition-all duration-300 hover:translate-x-2 depth-card experience-card ${active ? 'active' : ''}`}
+        className={`flex-1 mb-8 transition-all duration-300 hover:translate-x-2 depth-card experience-card ${active ? "active" : ""}`}
         onClick={onClick}
       >
         <div className="depth-content">
@@ -136,31 +136,38 @@ function TimelineItem({
         </div>
       </GlassCard>
     </div>
-  )
+  );
 }
 
 export default function Experience() {
-  const [activeExperience, setActiveExperience] = useState<number | null>(0)
-  const [showTerminal, setShowTerminal] = useState(false)
+  const [activeExperience, setActiveExperience] = useState<number | null>(0);
+  const [showTerminal, setShowTerminal] = useState(false);
 
   const experiences = [
     {
-      title: "Enmamar Backend Developer",
-      company: "Enmamar",
-      period: "Jan 2025",
+      title: "AI System Engineer",
+      company: "Costrym",
+      period: "10/2025 - 11/2025",
       location: "Addis Ababa, Ethiopia",
       description:
-        "Developing and maintaining backend systems for Enmamar's Learning platform. Implementing RESTful APIs and optimizing database performance. Collaborating with frontend developers to ensure seamless integration.",
+        "Architected backend infrastructure and built agentic systems for financial data analysis and cost optimization.",
       icon: <Brain className="h-5 w-5 text-terminal-green" />,
       achievements: [
-        "Designed and implemented a scalable RESTful API architecture",
-        "Optimized database queries using Redis, improving response times by 30%",
-        "Improved security by using rate limiting by IP and input validation",
-        "Collaborated with frontend teams to enhance user experience",
-        "Implemented security best practices, reducing vulnerabilities by 40%"
+        "Architected the core backend infrastructure using Laravel to orchestrate autonomous multi-agent workflows, enabling the system to reason through complex financial data for cost optimization",
+        "Engineered a hybrid agentic architecture using Laravel, Laragent, and Vizra to autonomously categorize and analyze thousands of financial transaction records",
+        "Developed a specialized microservice using FastAPI and LangChain with Model Context Protocol (MCP) support for high-performance context exchange between LLMs and external data tools",
       ],
-      skills: ["FastAPI", "Chapa"],
-      link: "https://enmamar.com/"
+      skills: [
+        "Laravel",
+        "Laragent",
+        "Vizra",
+        "FastAPI",
+        "LangChain",
+        "MCP",
+        "Microservices",
+        "Docker",
+      ],
+      link: "https://costrym.com/",
     },
     {
       title: "AI Engineer",
@@ -174,10 +181,61 @@ export default function Experience() {
         "Developed and deployed 5+ AI models that improved prediction accuracy by 30%",
         "Optimized machine learning pipelines reducing inference time by 40%",
         "Collaborated with research teams on implementing state-of-the-art NLP solutions",
-        "Mentored 3 junior engineers in AI development practices"
+        "Mentored 3 junior engineers in AI development practices",
       ],
-      skills: ["Python", "TensorFlow", "PyTorch", "NLP", "Computer Vision", "Docker", "Kubernetes"],
-      link: "https://www.icog-labs.com/"
+      skills: [
+        "Python",
+        "TensorFlow",
+        "PyTorch",
+        "NLP",
+        "Computer Vision",
+        "Docker",
+        "Kubernetes",
+      ],
+      link: "https://www.icog-labs.com/",
+    },
+    {
+      title: "Kifiya AI Mastery Program",
+      company: "Kifiya Financial Technology",
+      period: "Sep 2025",
+      location: "Addis Ababa, Ethiopia",
+      description:
+        "Completed an intensive 3-month AI Mastery program focused on machine learning engineering, data engineering, deployment, and generative AI for fintech applications.",
+      icon: <Brain className="h-5 w-5 text-terminal-green" />,
+      achievements: [
+        "Trained in Data Engineering: ETL, DBT transformations, DVC and infrastructure setup for data pipelines",
+        "Deployment and MLOps: Docker, GitHub CI/CD, model deployment, unit testing and dashboard building",
+        "Machine Learning & Generative AI: exploratory data analysis, predictive modeling, RAG, prompt & context engineering, and LLM fine-tuning",
+      ],
+      skills: [
+        "Python",
+        "SQL",
+        "Data Engineering",
+        "Docker",
+        "CI/CD",
+        "MLOps",
+        "RAG",
+        "Prompt Engineering",
+      ],
+      link: "https://kifiya.com/",
+    },
+    {
+      title: "Enmamar Backend Developer",
+      company: "Enmamar",
+      period: "Jan 2025",
+      location: "Addis Ababa, Ethiopia",
+      description:
+        "Developing and maintaining backend systems for Enmamar's Learning platform. Implementing RESTful APIs and optimizing database performance. Collaborating with frontend developers to ensure seamless integration.",
+      icon: <Brain className="h-5 w-5 text-terminal-green" />,
+      achievements: [
+        "Designed and implemented a scalable RESTful API architecture",
+        "Optimized database queries using Redis, improving response times by 30%",
+        "Improved security by using rate limiting by IP and input validation",
+        "Collaborated with frontend teams to enhance user experience",
+        "Implemented security best practices, reducing vulnerabilities by 40%",
+      ],
+      skills: ["FastAPI", "Chapa"],
+      link: "https://enmamar.com/",
     },
     {
       title: "Backend Intern",
@@ -191,10 +249,18 @@ export default function Experience() {
         "Built 10+ RESTful API endpoints with comprehensive documentation",
         "Optimized database queries resulting in 25% faster response times",
         "Implemented authentication and authorization systems using JWT",
-        "Participated in code reviews and contributed to team coding standards"
+        "Participated in code reviews and contributed to team coding standards",
       ],
-      skills: ["Python", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Git"],
-      link: "https://www.eskalate.io/"
+      skills: [
+        "Python",
+        "Django",
+        "FastAPI",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "Git",
+      ],
+      link: "https://www.eskalate.io/",
     },
     {
       title: "CGI Club Vice President",
@@ -208,20 +274,30 @@ export default function Experience() {
         "Organized 5 successful coding competitions with 100+ participants",
         "Conducted 10+ workshops on programming fundamentals and web development",
         "Increased club membership by 40% through outreach and quality programming",
-        "Established partnerships with 3 tech companies for sponsorship and mentorship"
+        "Established partnerships with 3 tech companies for sponsorship and mentorship",
       ],
-      skills: ["Leadership", "Event Management", "Public Speaking", "Mentoring", "Programming", "Web Development"],
-      link: "https://www.aau.edu.et/"
+      skills: [
+        "Leadership",
+        "Event Management",
+        "Public Speaking",
+        "Mentoring",
+        "Programming",
+        "Web Development",
+      ],
+      link: "https://www.aau.edu.et/",
     },
-  ]
+  ];
 
   const toggleTerminal = () => {
-    setShowTerminal(!showTerminal)
-  }
+    setShowTerminal(!showTerminal);
+  };
 
   return (
     <Container>
-      <SectionHeading title="Experience" subtitle="My professional journey and achievements" />
+      <SectionHeading
+        title="Experience"
+        subtitle="My professional journey and achievements"
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
@@ -247,13 +323,17 @@ export default function Experience() {
 
         <div className="lg:col-span-1 space-y-6">
           <GlassCard className="sticky top-24">
-            <h3 className="text-xl font-bold gradient-text mb-4">Experience Summary</h3>
+            <h3 className="text-xl font-bold gradient-text mb-4">
+              Experience Summary
+            </h3>
             <div className="space-y-4">
               <div className="flex items-start">
                 <Calendar className="h-5 w-5 text-terminal-green mr-3 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Years of Experience</h4>
-                  <p className="text-gray-400">3+ years in software development</p>
+                  <p className="text-gray-400">
+                    3+ years in software development
+                  </p>
                 </div>
               </div>
 
@@ -261,7 +341,9 @@ export default function Experience() {
                 <Code className="h-5 w-5 text-terminal-green mr-3 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Core Expertise</h4>
-                  <p className="text-gray-400">Backend Development, AI/ML, System Architecture</p>
+                  <p className="text-gray-400">
+                    Automation, Backend Development, AI/ML, System Architecture
+                  </p>
                 </div>
               </div>
 
@@ -269,7 +351,9 @@ export default function Experience() {
                 <Award className="h-5 w-5 text-terminal-green mr-3 mt-0.5" />
                 <div>
                   <h4 className="font-medium">Achievements</h4>
-                  <p className="text-gray-400">15+ successful projects, 5+ AI models deployed</p>
+                  <p className="text-gray-400">
+                    15+ successful projects, 5+ AI models deployed
+                  </p>
                 </div>
               </div>
             </div>
@@ -290,17 +374,21 @@ export default function Experience() {
             <TerminalBox title="experience.json" className="sticky top-96">
               <div className="text-xs font-mono overflow-auto max-h-[300px] p-2">
                 <pre className="text-gray-300">
-                  {JSON.stringify({
-                    name: "Binyam Mulat",
-                    title: "Backend Developer & AI Engineer",
-                    yearsOfExperience: 3,
-                    experience: experiences.map(exp => ({
-                      role: exp.title,
-                      company: exp.company,
-                      period: exp.period,
-                      skills: exp.skills
-                    }))
-                  }, null, 2)}
+                  {JSON.stringify(
+                    {
+                      name: "Binyam Mulat",
+                      title: "Backend Developer, AI & Automation Engineer",
+                      yearsOfExperience: 3,
+                      experience: experiences.map((exp) => ({
+                        role: exp.title,
+                        company: exp.company,
+                        period: exp.period,
+                        skills: exp.skills,
+                      })),
+                    },
+                    null,
+                    2,
+                  )}
                 </pre>
               </div>
             </TerminalBox>
@@ -308,6 +396,5 @@ export default function Experience() {
         </div>
       </div>
     </Container>
-  )
+  );
 }
-
