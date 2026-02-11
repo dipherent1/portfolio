@@ -1,16 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useForm, ValidationError } from '@formspree/react'
-import Container from "@/components/ui/container"
-import SectionHeading from "@/components/ui/section-heading"
-import GlassCard from "@/components/ui/glass-card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Github, Linkedin, Mail, Send, AlertCircle, CheckCircle } from "lucide-react"
+import { useState } from "react";
+import { useForm, ValidationError } from "@formspree/react";
+import Container from "@/components/ui/container";
+import SectionHeading from "@/components/ui/section-heading";
+import GlassCard from "@/components/ui/glass-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Send,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -18,42 +25,47 @@ export default function Contact() {
     email: "",
     subject: "",
     message: "",
-  })
+  });
 
-  const [chatId, setChatId] = useState<string | null>(null)
-  const [botToken, setBotToken] = useState<string | null>(null)
-  const [showChatIdHelper, setShowChatIdHelper] = useState(false)
+  const [chatId, setChatId] = useState<string | null>(null);
+  const [botToken, setBotToken] = useState<string | null>(null);
+  const [showChatIdHelper, setShowChatIdHelper] = useState(false);
 
   // Using Formspree hook with your form ID
-  const [formspreeState, handleFormspreeSubmit] = useForm("xpwporvg")
-  const { submitting, succeeded, errors } = formspreeState
+  const [formspreeState, handleFormspreeSubmit] = useForm("xpwporvg");
+  const { submitting, succeeded, errors } = formspreeState;
 
   // Function to get chat ID
   const getChatId = async () => {
     try {
       // Use manually set token, environment variable, or a placeholder
-      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
+      const token =
+        botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
 
       if (!token) {
-        alert("Please enter a bot token first or add it to your .env.local file");
+        alert(
+          "Please enter a bot token first or add it to your .env.local file",
+        );
         return;
       }
 
       // Validate token format
       if (!token.match(/^\d+:[A-Za-z0-9_-]+$/)) {
-        alert("Invalid bot token format. Please check your token and try again.");
+        alert(
+          "Invalid bot token format. Please check your token and try again.",
+        );
         return;
       }
 
       // Use our Next.js API route instead of calling Telegram directly
-      const response = await fetch('/api/telegram/getUpdates', {
-        method: 'POST',
+      const response = await fetch("/api/telegram/getUpdates", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          botToken: token
-        })
+          botToken: token,
+        }),
       });
 
       const data = await response.json();
@@ -78,26 +90,32 @@ export default function Contact() {
       }
 
       // If no chat ID found
-      alert("No messages found. Please send a message to your bot first, then try again.");
+      alert(
+        "No messages found. Please send a message to your bot first, then try again.",
+      );
     } catch (error) {
       console.error("Error getting chat ID:", error);
       alert("Error getting chat ID. Check console for details.");
     }
-  }
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const sendToTelegram = async (formData: any) => {
     try {
       // Use manually set token, environment variable, or a placeholder
-      const token = botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
+      const token =
+        botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
       // Use the chat ID from state if available, otherwise use environment variable
-      const userChatId = chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "";
+      const userChatId =
+        chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "";
 
       // Check if token and chat ID are available
       if (!token || token === "YOUR_BOT_TOKEN") {
@@ -113,12 +131,21 @@ export default function Contact() {
       }
 
       console.log("Environment variables:", {
-        NEXT_PUBLIC_TELEGRAM_BOT_TOKEN: process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN ? "Set (length: " + process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN.length + ")" : "Not set",
-        NEXT_PUBLIC_TELEGRAM_CHAT_ID: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "Not set",
-        isVercel: process.env.VERCEL || "Not on Vercel"
+        NEXT_PUBLIC_TELEGRAM_BOT_TOKEN: process.env
+          .NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
+          ? "Set (length: " +
+            process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN.length +
+            ")"
+          : "Not set",
+        NEXT_PUBLIC_TELEGRAM_CHAT_ID:
+          process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "Not set",
+        isVercel: process.env.VERCEL || "Not on Vercel",
       });
 
-      console.log("Sending to Telegram with token:", token.substring(0, 5) + "..." + token.substring(token.length - 5));
+      console.log(
+        "Sending to Telegram with token:",
+        token.substring(0, 5) + "..." + token.substring(token.length - 5),
+      );
       console.log("Sending to chat ID:", userChatId);
 
       // Use our Next.js API route instead of calling Telegram directly
@@ -126,85 +153,85 @@ export default function Contact() {
         console.log("Sending to Telegram API with:", {
           name: formData.name,
           email: formData.email,
-          subject: formData.subject || 'No Subject',
+          subject: formData.subject || "No Subject",
           messageLength: formData.message?.length,
           botTokenLength: token?.length,
-          chatId: userChatId
+          chatId: userChatId,
         });
 
-        const response = await fetch('/api/telegram', {
-          method: 'POST',
+        const response = await fetch("/api/telegram", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
-            subject: formData.subject || 'No Subject',
+            subject: formData.subject || "No Subject",
             message: formData.message,
             botToken: token,
-            chatId: userChatId
-          })
+            chatId: userChatId,
+          }),
         });
 
         // Get the response text first for debugging
         const responseText = await response.text();
-        console.log('Raw API response:', responseText);
+        console.log("Raw API response:", responseText);
 
         // Try to parse the response
         let result;
         try {
           result = JSON.parse(responseText);
         } catch (e) {
-          console.error('Failed to parse API response:', e);
+          console.error("Failed to parse API response:", e);
           return false;
         }
 
         if (!response.ok) {
-          console.error('API error:', result);
-          const errorMessage = result.error || 'Unknown error';
+          console.error("API error:", result);
+          const errorMessage = result.error || "Unknown error";
           console.error(`Failed to send to Telegram: ${errorMessage}`);
 
           // Don't show alert for every error - it's annoying for users
           // Just log it to console for debugging
           if (result.details) {
-            console.error('Error details:', result.details);
+            console.error("Error details:", result.details);
           }
 
           return false;
         }
 
-        console.log('Telegram notification sent:', result);
+        console.log("Telegram notification sent:", result);
         return result.success;
       } catch (error) {
-        console.error('Network error when sending to Telegram:', error);
+        console.error("Network error when sending to Telegram:", error);
         return false;
       }
     } catch (error) {
-      console.error('Error sending to Telegram:', error);
+      console.error("Error sending to Telegram:", error);
       return false;
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Create form data for Formspree submission
     const formData = {
       name: formState.name,
       email: formState.email,
-      subject: formState.subject || 'New contact form submission',
-      message: formState.message
-    }
+      subject: formState.subject || "New contact form submission",
+      message: formState.message,
+    };
 
     // Submit the form using Formspree
-    await handleFormspreeSubmit(e)
+    await handleFormspreeSubmit(e);
 
     // If submission was successful, try to send to Telegram and reset the form
     if (succeeded) {
       // Try to send to Telegram in the background
-      sendToTelegram(formData).catch(error => {
-        console.error('Failed to send to Telegram:', error);
+      sendToTelegram(formData).catch((error) => {
+        console.error("Failed to send to Telegram:", error);
         // We don't need to show this error to the user as the form was still submitted successfully
       });
 
@@ -214,27 +241,35 @@ export default function Contact() {
         email: "",
         subject: "",
         message: "",
-      })
+      });
 
       // Clear success message after 8 seconds
       setTimeout(() => {
         // Reset the Formspree state (this is not directly possible with the hook)
         // We'll rely on the UI to handle this
-      }, 8000)
+      }, 8000);
     }
-  }
+  };
 
   return (
     <Container>
-      <SectionHeading title="Contact" subtitle="Get in touch with me for collaborations or opportunities" />
+      <SectionHeading
+        title="Contact"
+        subtitle="Get in touch with me for collaborations or opportunities"
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <GlassCard>
-          <h3 className="text-xl font-bold mb-6 text-terminal-green">Send a Message</h3>
+          <h3 className="text-xl font-bold mb-6 text-terminal-green">
+            Send a Message
+          </h3>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-1">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-400 mb-1"
+              >
                 Name
               </label>
               <Input
@@ -245,11 +280,19 @@ export default function Contact() {
                 required
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
-              <ValidationError prefix="Name" field="name" errors={errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError
+                prefix="Name"
+                field="name"
+                errors={errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-400 mb-1"
+              >
                 Email
               </label>
               <Input
@@ -261,11 +304,19 @@ export default function Contact() {
                 required
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
-              <ValidationError prefix="Email" field="email" errors={errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError
+                prefix="Email"
+                field="email"
+                errors={errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-400 mb-1">
+              <label
+                htmlFor="subject"
+                className="block text-sm font-medium text-gray-400 mb-1"
+              >
                 Subject (optional)
               </label>
               <Input
@@ -275,11 +326,19 @@ export default function Contact() {
                 onChange={handleChange}
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
-              <ValidationError prefix="Subject" field="subject" errors={errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError
+                prefix="Subject"
+                field="subject"
+                errors={errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-1">
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-gray-400 mb-1"
+              >
                 Message
               </label>
               <Textarea
@@ -291,7 +350,12 @@ export default function Contact() {
                 rows={5}
                 className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
               />
-              <ValidationError prefix="Message" field="message" errors={errors} className="text-red-400 text-sm mt-1" />
+              <ValidationError
+                prefix="Message"
+                field="message"
+                errors={errors}
+                className="text-red-400 text-sm mt-1"
+              />
             </div>
 
             <Button
@@ -338,7 +402,10 @@ export default function Contact() {
               </div>
             )}
 
-            <ValidationError errors={errors} className="text-red-400 text-center flex items-center justify-center">
+            <ValidationError
+              errors={errors}
+              className="text-red-400 text-center flex items-center justify-center"
+            >
               {(error) => (
                 <>
                   <AlertCircle className="h-4 w-4 mr-2" />
@@ -351,10 +418,13 @@ export default function Contact() {
 
         <GlassCard className="flex flex-col justify-between">
           <div>
-            <h3 className="text-xl font-bold mb-6 text-terminal-green">Connect With Me</h3>
+            <h3 className="text-xl font-bold mb-6 text-terminal-green">
+              Connect With Me
+            </h3>
 
             <p className="text-gray-300 mb-8">
-              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+              I'm always open to discussing new projects, creative ideas, or
+              opportunities to be part of your vision.
             </p>
 
             <div className="space-y-4">
@@ -396,27 +466,32 @@ export default function Contact() {
 
           <div className="mt-8 pt-8 border-t border-white/10">
             <div className="mb-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowChatIdHelper(!showChatIdHelper)}
-                className="w-full border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
-              >
-                {showChatIdHelper ? "Hide" : "Show"} Telegram Setup Helper
-              </Button>
-
               {showChatIdHelper && (
                 <div className="mt-4 p-4 bg-black/30 border border-terminal-green/20 rounded-md">
-                  <h4 className="text-sm font-bold mb-2 text-terminal-green">Telegram Bot Setup</h4>
+                  <h4 className="text-sm font-bold mb-2 text-terminal-green">
+                    Telegram Bot Setup
+                  </h4>
                   <ol className="text-xs text-gray-300 space-y-2 list-decimal pl-4">
-                    <li>Create a new bot or revoke token for existing bot via <span className="text-terminal-green">@BotFather</span> on Telegram</li>
-                    <li>Enter your bot token below or add it to <span className="text-terminal-green">.env.local</span> as <span className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_BOT_TOKEN</span></li>
+                    <li>
+                      Create a new bot or revoke token for existing bot via{" "}
+                      <span className="text-terminal-green">@BotFather</span> on
+                      Telegram
+                    </li>
+                    <li>
+                      Enter your bot token below or add it to{" "}
+                      <span className="text-terminal-green">.env.local</span> as{" "}
+                      <span className="text-terminal-green">
+                        NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
+                      </span>
+                    </li>
                     <li>Send a message to your bot (e.g., "Hello")</li>
                     <li>Click the button below to get your chat ID</li>
                   </ol>
 
                   <div className="mt-3">
-                    <div className="text-xs text-gray-400 mb-2">Enter your Telegram Bot Token:</div>
+                    <div className="text-xs text-gray-400 mb-2">
+                      Enter your Telegram Bot Token:
+                    </div>
                     <div className="flex">
                       <input
                         type="password"
@@ -452,7 +527,9 @@ export default function Contact() {
                     {chatId && (
                       <div className="text-xs">
                         <span className="text-gray-400">Your Chat ID:</span>
-                        <span className="text-terminal-green ml-1 font-mono">{chatId}</span>
+                        <span className="text-terminal-green ml-1 font-mono">
+                          {chatId}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -466,19 +543,26 @@ export default function Contact() {
                           name: "Test User",
                           email: "test@example.com",
                           subject: "Test Message",
-                          message: "This is a test message from your portfolio website."
+                          message:
+                            "This is a test message from your portfolio website.",
                         };
                         sendToTelegram(testMessage)
-                          .then(success => {
+                          .then((success) => {
                             if (success) {
-                              alert("Test message sent successfully! Check your Telegram.");
+                              alert(
+                                "Test message sent successfully! Check your Telegram.",
+                              );
                             } else {
-                              alert("Failed to send test message. Check console for details.");
+                              alert(
+                                "Failed to send test message. Check console for details.",
+                              );
                             }
                           })
-                          .catch(error => {
+                          .catch((error) => {
                             console.error("Error sending test message:", error);
-                            alert("Error sending test message. Check console for details.");
+                            alert(
+                              "Error sending test message. Check console for details.",
+                            );
                           });
                       }}
                       className="w-full border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
@@ -489,11 +573,20 @@ export default function Contact() {
 
                   {chatId ? (
                     <div className="mt-3 text-xs text-gray-400">
-                      <p>Add this chat ID to your <code className="text-terminal-green">.env.local</code> file as <code className="text-terminal-green">NEXT_PUBLIC_TELEGRAM_CHAT_ID</code></p>
+                      <p>
+                        Add this chat ID to your{" "}
+                        <code className="text-terminal-green">.env.local</code>{" "}
+                        file as{" "}
+                        <code className="text-terminal-green">
+                          NEXT_PUBLIC_TELEGRAM_CHAT_ID
+                        </code>
+                      </p>
                     </div>
                   ) : (
                     <div className="mt-3">
-                      <div className="text-xs text-gray-400 mb-2">Or manually enter your chat ID:</div>
+                      <div className="text-xs text-gray-400 mb-2">
+                        Or manually enter your chat ID:
+                      </div>
                       <div className="flex">
                         <input
                           type="text"
@@ -521,12 +614,12 @@ export default function Contact() {
             </div>
 
             <p className="text-center text-gray-400">
-              &copy; {new Date().getFullYear()} Binyam Mulat Abegaz. All rights reserved.
+              &copy; {new Date().getFullYear()} Binyam Mulat Abegaz. All rights
+              reserved.
             </p>
           </div>
         </GlassCard>
       </div>
     </Container>
-  )
+  );
 }
-

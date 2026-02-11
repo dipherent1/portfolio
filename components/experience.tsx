@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import Container from "@/components/ui/container";
 import SectionHeading from "@/components/ui/section-heading";
 import GlassCard from "@/components/ui/glass-card";
@@ -47,15 +48,20 @@ function TimelineItem({
   onClick,
 }: TimelineItemProps) {
   return (
-    <div className="flex experience-timeline-item">
-      <div className="flex flex-col items-center mr-4">
+    <motion.div 
+      className="flex experience-timeline-item relative"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      onViewportEnter={() => onClick && onClick()}
+    >
+      <div className="flex flex-col items-center mr-4 z-10">
         <div
-          className={`flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-deep-blue/30 to-terminal-green/30 border ${active ? "border-terminal-green" : "border-terminal-green/30"} hover:shadow-[0_0_15px_rgba(0,255,173,0.5)] transition-all cursor-pointer experience-icon`}
+          className={`flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-deep-blue/30 to-terminal-green/30 border ${active ? "border-terminal-green" : "border-terminal-green/30"} hover:shadow-[0_0_15px_rgba(0,255,173,0.5)] transition-all cursor-pointer experience-icon bg-off-black`}
           onClick={onClick}
         >
           {icon}
         </div>
-        <div className="w-px h-full bg-gradient-to-b from-terminal-green to-transparent"></div>
       </div>
       <GlassCard
         className={`flex-1 mb-8 transition-all duration-300 hover:translate-x-2 depth-card experience-card ${active ? "active" : ""}`}
@@ -86,7 +92,7 @@ function TimelineItem({
 
           <p className="text-gray-300 mt-3 mb-3">{description}</p>
 
-          {active && achievements && achievements.length > 0 && (
+          {achievements && achievements.length > 0 && (
             <div className="mt-4">
               <h4 className="text-sm font-semibold text-terminal-green mb-2 flex items-center">
                 <Award className="h-4 w-4 mr-1" /> Key Achievements
@@ -102,7 +108,7 @@ function TimelineItem({
             </div>
           )}
 
-          {active && skills && skills.length > 0 && (
+          {skills && skills.length > 0 && (
             <div className="mt-4">
               <h4 className="text-sm font-semibold text-terminal-green mb-2 flex items-center">
                 <Code className="h-4 w-4 mr-1" /> Technologies Used
@@ -120,7 +126,7 @@ function TimelineItem({
             </div>
           )}
 
-          {active && link && (
+          {link && (
             <div className="mt-4">
               <a
                 href={link}
@@ -135,13 +141,26 @@ function TimelineItem({
           )}
         </div>
       </GlassCard>
-    </div>
+    </motion.div>
   );
 }
 
 export default function Experience() {
   const [activeExperience, setActiveExperience] = useState<number | null>(0);
   const [showTerminal, setShowTerminal] = useState(false);
+  const [showAll, setShowAll] = useState(false);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+  
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   const experiences = [
     {
@@ -301,8 +320,13 @@ export default function Experience() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <div className="space-y-0">
-            {experiences.map((exp, index) => (
+          <div className="space-y-0 relative pl-4" ref={containerRef}>
+            <div className="absolute left-[2.25rem] top-0 bottom-0 w-px bg-terminal-green/20" />
+            <motion.div
+              style={{ scaleY, transformOrigin: "top" }}
+              className="absolute left-[2.25rem] top-0 bottom-0 w-px bg-terminal-green"
+            />
+            {(showAll ? experiences : experiences.slice(0, 3)).map((exp, index) => (
               <TimelineItem
                 key={index}
                 title={exp.title}
@@ -318,6 +342,16 @@ export default function Experience() {
                 onClick={() => setActiveExperience(index)}
               />
             ))}
+          </div>
+          
+          <div className="mt-8 flex justify-center">
+            <Button
+              variant="outline"
+              onClick={() => setShowAll(!showAll)}
+              className="border-terminal-green/50 text-terminal-green hover:bg-terminal-green/10"
+            >
+              {showAll ? "Show Less" : "Show More"}
+            </Button>
           </div>
         </div>
 
