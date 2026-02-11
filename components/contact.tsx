@@ -32,7 +32,8 @@ export default function Contact() {
   const [showChatIdHelper, setShowChatIdHelper] = useState(false);
 
   // Using Formspree hook with your form ID
-  const [formspreeState, handleFormspreeSubmit, resetFormspree] = useForm("xpwporvg");
+  const [formspreeState, handleFormspreeSubmit, resetFormspree] =
+    useForm("xpwporvg");
   const { submitting, succeeded, errors } = formspreeState;
 
   // Function to get chat ID
