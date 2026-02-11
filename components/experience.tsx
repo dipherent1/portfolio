@@ -48,7 +48,7 @@ function TimelineItem({
   onClick,
 }: TimelineItemProps) {
   return (
-    <motion.div 
+    <motion.div
       className="flex experience-timeline-item relative"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -149,17 +149,17 @@ export default function Experience() {
   const [activeExperience, setActiveExperience] = useState<number | null>(0);
   const [showTerminal, setShowTerminal] = useState(false);
   const [showAll, setShowAll] = useState(false);
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
-  
+
   const scaleY = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
   const experiences = [
@@ -326,24 +326,26 @@ export default function Experience() {
               style={{ scaleY, transformOrigin: "top" }}
               className="absolute left-[2.25rem] top-0 bottom-0 w-px bg-terminal-green"
             />
-            {(showAll ? experiences : experiences.slice(0, 3)).map((exp, index) => (
-              <TimelineItem
-                key={index}
-                title={exp.title}
-                company={exp.company}
-                period={exp.period}
-                location={exp.location}
-                description={exp.description}
-                icon={exp.icon}
-                achievements={exp.achievements}
-                skills={exp.skills}
-                link={exp.link}
-                active={activeExperience === index}
-                onClick={() => setActiveExperience(index)}
-              />
-            ))}
+            {(showAll ? experiences : experiences.slice(0, 3)).map(
+              (exp, index) => (
+                <TimelineItem
+                  key={index}
+                  title={exp.title}
+                  company={exp.company}
+                  period={exp.period}
+                  location={exp.location}
+                  description={exp.description}
+                  icon={exp.icon}
+                  achievements={exp.achievements}
+                  skills={exp.skills}
+                  link={exp.link}
+                  active={activeExperience === index}
+                  onClick={() => setActiveExperience(index)}
+                />
+              ),
+            )}
           </div>
-          
+
           <div className="mt-8 flex justify-center">
             <Button
               variant="outline"
