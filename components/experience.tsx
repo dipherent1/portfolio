@@ -166,7 +166,7 @@ export default function Experience() {
     {
       title: "AI System Engineer",
       company: "Costrym",
-      period: "10/2025 - 11/2025",
+      period: "09/2025 - 11/2025",
       location: "Addis Ababa, Ethiopia",
       description:
         "Architected backend infrastructure and built agentic systems for financial data analysis and cost optimization.",
