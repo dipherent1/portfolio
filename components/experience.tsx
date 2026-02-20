@@ -191,7 +191,7 @@ export default function Experience() {
     {
       title: "AI Engineer",
       company: "ICOG Labs",
-      period: "Jan 2023 - 2024",
+      period: "Jan 2025 - Mar 2025",
       location: "Addis Ababa, Ethiopia",
       description:
         "Working on MCP servers and training different AI models. Implementing and optimizing machine learning pipelines for various applications. Collaborating with research teams on cutting-edge AI solutions.",
@@ -216,7 +216,7 @@ export default function Experience() {
     {
       title: "Kifiya AI Mastery Program",
       company: "Kifiya Financial Technology",
-      period: "Sep 2025",
+      period: "Sep 2025 - Nov 2025",
       location: "Addis Ababa, Ethiopia",
       description:
         "Completed an intensive 3-month AI Mastery program focused on machine learning engineering, data engineering, deployment, and generative AI for fintech applications.",
@@ -241,7 +241,7 @@ export default function Experience() {
     {
       title: "Enmamar Backend Developer",
       company: "Enmamar",
-      period: "Jan 2025",
+      period: "Jan 2025 - Mar 2025",
       location: "Addis Ababa, Ethiopia",
       description:
         "Developing and maintaining backend systems for Enmamar's Learning platform. Implementing RESTful APIs and optimizing database performance. Collaborating with frontend developers to ensure seamless integration.",
@@ -259,7 +259,7 @@ export default function Experience() {
     {
       title: "Backend Intern",
       company: "Eskalate LLC",
-      period: "Jun 2022 - Sep 2022",
+      period: "Jun 2024 - Sep 2024",
       location: "Addis Ababa, Ethiopia",
       description:
         "Developed RESTful APIs using Django and FastAPI. Implemented database models and optimized queries for improved performance. Collaborated with the frontend team to integrate APIs.",
