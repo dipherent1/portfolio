@@ -186,7 +186,7 @@ export default function Experience() {
         "Microservices",
         "Docker",
       ],
-      link: "https://costrym.com/",
+      link: "",
     },
     {
       title: "AI Engineer",
