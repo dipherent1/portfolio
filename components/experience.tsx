@@ -163,31 +163,31 @@ export default function Experience() {
   });
 
   const experiences = [
-    // {
-    //   title: "AI System Engineer",
-    //   company: "Costrym",
-    //   period: "09/2025 - 11/2025",
-    //   location: "Addis Ababa, Ethiopia",
-    //   description:
-    //     "Architected backend infrastructure and built agentic systems for financial data analysis and cost optimization.",
-    //   icon: <Brain className="h-5 w-5 text-terminal-green" />,
-    //   achievements: [
-    //     "Architected the core backend infrastructure using Laravel to orchestrate autonomous multi-agent workflows, enabling the system to reason through complex financial data for cost optimization",
-    //     "Engineered a hybrid agentic architecture using Laravel, Laragent, and Vizra to autonomously categorize and analyze thousands of financial transaction records",
-    //     "Developed a specialized microservice using FastAPI and LangChain with Model Context Protocol (MCP) support for high-performance context exchange between LLMs and external data tools",
-    //   ],
-    //   skills: [
-    //     "Laravel",
-    //     "Laragent",
-    //     "Vizra",
-    //     "FastAPI",
-    //     "LangChain",
-    //     "MCP",
-    //     "Microservices",
-    //     "Docker",
-    //   ],
-    //   link: "",
-    // },
+    {
+      title: "AI System Engineer",
+      company: "Budera",
+      period: "09/2025 - 11/2025",
+      location: "Addis Ababa, Ethiopia",
+      description:
+        "Architected backend infrastructure and built agentic systems for financial data analysis and cost optimization.",
+      icon: <Brain className="h-5 w-5 text-terminal-green" />,
+      achievements: [
+        "Architected the core backend infrastructure using Laravel to orchestrate autonomous multi-agent workflows, enabling the system to reason through complex financial data for cost optimization",
+        "Engineered a hybrid agentic architecture using Laravel, Laragent, and Vizra to autonomously categorize and analyze thousands of financial transaction records",
+        "Developed a specialized microservice using FastAPI and LangChain with Model Context Protocol (MCP) support for high-performance context exchange between LLMs and external data tools",
+      ],
+      skills: [
+        "Laravel",
+        "Laragent",
+        "Vizra",
+        "FastAPI",
+        "LangChain",
+        "MCP",
+        "Microservices",
+        "Docker",
+      ],
+      link: "",
+    },
     {
       title: "AI Engineer",
       company: "ICOG Labs",
