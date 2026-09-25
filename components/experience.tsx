@@ -166,7 +166,7 @@ export default function Experience() {
     {
       title: "AI System Engineer",
       company: "Budera",
-      period: "09/2025 - 11/2025",
+      period: "10/2025 - 11/2025",
       location: "Addis Ababa, Ethiopia",
       description:
         "Architected backend infrastructure and built agentic systems for financial data analysis and cost optimization.",
@@ -191,7 +191,7 @@ export default function Experience() {
     {
       title: "AI Engineer",
       company: "ICOG Labs",
-      period: "Jan 2025 - Mar 2025",
+      period: "Jan 2025 - Apr 2025",
       location: "Addis Ababa, Ethiopia",
       description:
         "Working on MCP servers and training different AI models. Implementing and optimizing machine learning pipelines for various applications. Collaborating with research teams on cutting-edge AI solutions.",
