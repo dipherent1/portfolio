@@ -1,623 +1,164 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useForm, ValidationError } from "@formspree/react";
-import Container from "@/components/ui/container";
-import SectionHeading from "@/components/ui/section-heading";
-import GlassCard from "@/components/ui/glass-card";
+import { Mail, Github, Linkedin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  Send,
-  AlertCircle,
-  CheckCircle,
-} from "lucide-react";
+import { siteConfig } from "@/lib/data";
 
 export default function Contact() {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const [chatId, setChatId] = useState<string | null>(null);
-  const [botToken, setBotToken] = useState<string | null>(null);
-  const [showChatIdHelper, setShowChatIdHelper] = useState(false);
-
-  // Using Formspree hook with your form ID
-  const [formspreeState, handleFormspreeSubmit, resetFormspree] =
-    useForm("xpwporvg");
-  const { submitting, succeeded, errors } = formspreeState;
-
-  // Function to get chat ID
-  const getChatId = async () => {
-    try {
-      // Use manually set token, environment variable, or a placeholder
-      const token =
-        botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
-
-      if (!token) {
-        alert(
-          "Please enter a bot token first or add it to your .env.local file",
-        );
-        return;
-      }
-
-      // Validate token format
-      if (!token.match(/^\d+:[A-Za-z0-9_-]+$/)) {
-        alert(
-          "Invalid bot token format. Please check your token and try again.",
-        );
-        return;
-      }
-
-      // Use our Next.js API route instead of calling Telegram directly
-      const response = await fetch("/api/telegram/getUpdates", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          botToken: token,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error("Error response from getUpdates API:", data);
-        alert(`Error: ${data.error || "Failed to get updates from Telegram"}`);
-        return;
-      }
-
-      if (data.success && data.result && data.result.length > 0) {
-        // Get the most recent message's chat ID
-        const updates = data.result;
-        for (let i = updates.length - 1; i >= 0; i--) {
-          if (updates[i].message && updates[i].message.chat) {
-            const id = updates[i].message.chat.id.toString();
-            setChatId(id);
-            alert(`Chat ID found: ${id}`);
-            return;
-          }
-        }
-      }
-
-      // If no chat ID found
-      alert(
-        "No messages found. Please send a message to your bot first, then try again.",
-      );
-    } catch (error) {
-      console.error("Error getting chat ID:", error);
-      alert("Error getting chat ID. Check console for details.");
-    }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const sendToTelegram = async (formData: any) => {
-    try {
-      // Use manually set token, environment variable, or a placeholder
-      const token =
-        botToken || process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN || "";
-      // Use the chat ID from state if available, otherwise use environment variable
-      const userChatId =
-        chatId || process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "";
-
-      // Check if token and chat ID are available
-      if (!token || token === "YOUR_BOT_TOKEN") {
-        console.error("No valid Telegram bot token available");
-        alert("Telegram notification failed: No valid bot token available");
-        return false;
-      }
-
-      if (!userChatId || userChatId === "YOUR_CHAT_ID") {
-        console.error("No valid Telegram chat ID available");
-        alert("Telegram notification failed: No valid chat ID available");
-        return false;
-      }
-
-      console.log("Environment variables:", {
-        NEXT_PUBLIC_TELEGRAM_BOT_TOKEN: process.env
-          .NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
-          ? "Set (length: " +
-            process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN.length +
-            ")"
-          : "Not set",
-        NEXT_PUBLIC_TELEGRAM_CHAT_ID:
-          process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "Not set",
-        isVercel: process.env.VERCEL || "Not on Vercel",
-      });
-
-      console.log(
-        "Sending to Telegram with token:",
-        token.substring(0, 5) + "..." + token.substring(token.length - 5),
-      );
-      console.log("Sending to chat ID:", userChatId);
-
-      // Use our Next.js API route instead of calling Telegram directly
-      try {
-        console.log("Sending to Telegram API with:", {
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject || "No Subject",
-          messageLength: formData.message?.length,
-          botTokenLength: token?.length,
-          chatId: userChatId,
-        });
-
-        const response = await fetch("/api/telegram", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject || "No Subject",
-            message: formData.message,
-            botToken: token,
-            chatId: userChatId,
-          }),
-        });
-
-        // Get the response text first for debugging
-        const responseText = await response.text();
-        console.log("Raw API response:", responseText);
-
-        // Try to parse the response
-        let result;
-        try {
-          result = JSON.parse(responseText);
-        } catch (e) {
-          console.error("Failed to parse API response:", e);
-          return false;
-        }
-
-        if (!response.ok) {
-          console.error("API error:", result);
-          const errorMessage = result.error || "Unknown error";
-          console.error(`Failed to send to Telegram: ${errorMessage}`);
-
-          // Don't show alert for every error - it's annoying for users
-          // Just log it to console for debugging
-          if (result.details) {
-            console.error("Error details:", result.details);
-          }
-
-          return false;
-        }
-
-        console.log("Telegram notification sent:", result);
-        return result.success;
-      } catch (error) {
-        console.error("Network error when sending to Telegram:", error);
-        return false;
-      }
-    } catch (error) {
-      console.error("Error sending to Telegram:", error);
-      return false;
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await handleFormspreeSubmit(e);
-  };
-
-  useEffect(() => {
-    if (succeeded && (formState.name || formState.email || formState.message)) {
-      // Create form data for Telegram
-      const formData = {
-        name: formState.name,
-        email: formState.email,
-        subject: formState.subject || "New contact form submission",
-        message: formState.message,
-      };
-
-      // Try to send to Telegram in the background
-      sendToTelegram(formData).catch((error) => {
-        console.error("Failed to send to Telegram:", error);
-      });
-
-      // Reset the form
-      setFormState({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
-
-      // Clear success message after 8 seconds
-      setTimeout(() => {
-        resetFormspree();
-      }, 8000);
-    }
-  }, [succeeded, resetFormspree]);
+  const [state, handleSubmit] = useForm("xpwporvg");
 
   return (
-    <Container>
-      <SectionHeading
-        title="Contact"
-        subtitle="Get in touch with me for collaborations or opportunities"
-      />
+    <div className="max-w-5xl mx-auto px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        <h2 className="text-3xl font-bold gradient-text">Get in Touch</h2>
+        <p className="text-muted-foreground mt-2 mb-12">
+          Have a project in mind or want to connect? Feel free to reach out.
+        </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <GlassCard>
-          <h3 className="text-xl font-bold mb-6 text-terminal-green">
-            Send a Message
-          </h3>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-400 mb-1"
-              >
-                Name
-              </label>
-              <Input
-                id="name"
-                name="name"
-                value={formState.name}
-                onChange={handleChange}
-                required
-                className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
-              />
-              <ValidationError
-                prefix="Name"
-                field="name"
-                errors={errors}
-                className="text-red-400 text-sm mt-1"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-400 mb-1"
-              >
-                Email
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formState.email}
-                onChange={handleChange}
-                required
-                className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
-              />
-              <ValidationError
-                prefix="Email"
-                field="email"
-                errors={errors}
-                className="text-red-400 text-sm mt-1"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="subject"
-                className="block text-sm font-medium text-gray-400 mb-1"
-              >
-                Subject (optional)
-              </label>
-              <Input
-                id="subject"
-                name="subject"
-                value={formState.subject}
-                onChange={handleChange}
-                className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
-              />
-              <ValidationError
-                prefix="Subject"
-                field="subject"
-                errors={errors}
-                className="text-red-400 text-sm mt-1"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-gray-400 mb-1"
-              >
-                Message
-              </label>
-              <Textarea
-                id="message"
-                name="message"
-                value={formState.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                className="w-full bg-black/30 border-white/10 focus:border-terminal-green focus:ring-terminal-green/20"
-              />
-              <ValidationError
-                prefix="Message"
-                field="message"
-                errors={errors}
-                className="text-red-400 text-sm mt-1"
-              />
-            </div>
-
-            <Button
-              type="submit"
-              disabled={submitting}
-              className="w-full bg-terminal-green text-black hover:bg-terminal-green/80 transition-all"
-            >
-              {submitting ? (
-                <span className="flex items-center">
-                  <svg
-                    className="animate-spin -ml-1 mr-2 h-4 w-4 text-black"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Sending...
-                </span>
-              ) : (
-                <span className="flex items-center">
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Message
-                </span>
-              )}
-            </Button>
-
-            {succeeded && (
-              <div className="text-terminal-green text-center flex items-center justify-center">
-                <CheckCircle className="h-4 w-4 mr-2" />
-                Message sent successfully! I'll get back to you soon.
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-foreground mb-1.5"
+                >
+                  Name
+                </label>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="Your name"
+                  className="bg-secondary border-border"
+                />
+                <ValidationError
+                  prefix="Name"
+                  field="name"
+                  errors={state.errors}
+                  className="text-destructive text-sm mt-1"
+                />
               </div>
-            )}
 
-            <ValidationError
-              errors={errors}
-              className="text-red-400 text-center flex items-center justify-center"
-            >
-              {(error) => (
-                <>
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  {error}
-                </>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-foreground mb-1.5"
+                >
+                  Email
+                </label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="you@example.com"
+                  className="bg-secondary border-border"
+                />
+                <ValidationError
+                  prefix="Email"
+                  field="email"
+                  errors={state.errors}
+                  className="text-destructive text-sm mt-1"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-foreground mb-1.5"
+                >
+                  Message
+                </label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  required
+                  placeholder="Your message..."
+                  className="bg-secondary border-border"
+                />
+                <ValidationError
+                  prefix="Message"
+                  field="message"
+                  errors={state.errors}
+                  className="text-destructive text-sm mt-1"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={state.submitting}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                <Send className="mr-2 h-4 w-4" />
+                {state.submitting ? "Sending..." : "Send Message"}
+              </Button>
+
+              {state.succeeded && (
+                <p className="text-primary text-sm mt-3 text-center">
+                  Thank you! Your message has been sent successfully.
+                </p>
               )}
-            </ValidationError>
-          </form>
-        </GlassCard>
-
-        <GlassCard className="flex flex-col justify-between">
-          <div>
-            <h3 className="text-xl font-bold mb-6 text-terminal-green">
-              Connect With Me
-            </h3>
-
-            <p className="text-gray-300 mb-8">
-              I'm always open to discussing new projects, creative ideas, or
-              opportunities to be part of your vision.
-            </p>
-
-            <div className="space-y-4">
-              <a
-                href="mailto:binyammulat244@gmail.com"
-                className="flex items-center text-gray-300 hover:text-terminal-green transition-colors"
-              >
-                <Mail className="h-5 w-5 mr-3" />
-                <span>binyammulat244@gmail.com</span>
-              </a>
-
-              <a
-                href="https://github.com/dipherent1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-gray-300 hover:text-terminal-green transition-colors group"
-              >
-                <Github className="h-5 w-5 mr-3" />
-                <span>github.com/dipherent1</span>
-                <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs terminal-text">
-                  $ git clone https://github.com/dipherent1
-                </span>
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/binyam-mulat-2838a6249/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center text-gray-300 hover:text-terminal-green transition-colors group"
-              >
-                <Linkedin className="h-5 w-5 mr-3" />
-                <span>linkedin.com/in/binyam-mulat-2838a6249</span>
-                <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs terminal-text">
-                  $ open connection
-                </span>
-              </a>
-            </div>
+            </form>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-white/10">
-            <div className="mb-4">
-              {showChatIdHelper && (
-                <div className="mt-4 p-4 bg-black/30 border border-terminal-green/20 rounded-md">
-                  <h4 className="text-sm font-bold mb-2 text-terminal-green">
-                    Telegram Bot Setup
-                  </h4>
-                  <ol className="text-xs text-gray-300 space-y-2 list-decimal pl-4">
-                    <li>
-                      Create a new bot or revoke token for existing bot via{" "}
-                      <span className="text-terminal-green">@BotFather</span> on
-                      Telegram
-                    </li>
-                    <li>
-                      Enter your bot token below or add it to{" "}
-                      <span className="text-terminal-green">.env.local</span> as{" "}
-                      <span className="text-terminal-green">
-                        NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
-                      </span>
-                    </li>
-                    <li>Send a message to your bot (e.g., "Hello")</li>
-                    <li>Click the button below to get your chat ID</li>
-                  </ol>
+          {/* Contact Info & Socials */}
+          <div className="bg-card border border-border rounded-xl p-6 flex flex-col justify-between">
+            <div>
+              <h3 className="text-xl font-semibold text-foreground mb-4">
+                Let&apos;s Connect
+              </h3>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                I&apos;m always open to discussing new opportunities, creative
+                collaborations, or questions about my work. Reach out through
+                the form or connect with me directly via email or social platforms.
+              </p>
 
-                  <div className="mt-3">
-                    <div className="text-xs text-gray-400 mb-2">
-                      Enter your Telegram Bot Token:
-                    </div>
-                    <div className="flex">
-                      <input
-                        type="password"
-                        placeholder="Enter your bot token"
-                        className="flex-1 bg-black/30 border border-white/10 rounded-l px-3 py-1 text-white text-xs focus:outline-none focus:border-terminal-green/50"
-                        onChange={(e) => setBotToken(e.target.value)}
-                      />
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="rounded-l-none border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10 text-xs py-1 px-2"
-                        onClick={() => {
-                          if (botToken) {
-                            alert(`Bot token set successfully!`);
-                          }
-                        }}
-                      >
-                        Set
-                      </Button>
-                    </div>
-                  </div>
+              <div className="space-y-2">
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  <Mail className="h-5 w-5 text-primary shrink-0" />
+                  <span className="truncate">{siteConfig.email}</span>
+                </a>
 
-                  <div className="mt-3 flex items-center">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={getChatId}
-                      className="mr-2 border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
-                    >
-                      Get Chat ID
-                    </Button>
+                <a
+                  href={siteConfig.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  <Github className="h-5 w-5 text-primary shrink-0" />
+                  <span className="truncate">{siteConfig.github}</span>
+                </a>
 
-                    {chatId && (
-                      <div className="text-xs">
-                        <span className="text-gray-400">Your Chat ID:</span>
-                        <span className="text-terminal-green ml-1 font-mono">
-                          {chatId}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const testMessage = {
-                          name: "Test User",
-                          email: "test@example.com",
-                          subject: "Test Message",
-                          message:
-                            "This is a test message from your portfolio website.",
-                        };
-                        sendToTelegram(testMessage)
-                          .then((success) => {
-                            if (success) {
-                              alert(
-                                "Test message sent successfully! Check your Telegram.",
-                              );
-                            } else {
-                              alert(
-                                "Failed to send test message. Check console for details.",
-                              );
-                            }
-                          })
-                          .catch((error) => {
-                            console.error("Error sending test message:", error);
-                            alert(
-                              "Error sending test message. Check console for details.",
-                            );
-                          });
-                      }}
-                      className="w-full border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10"
-                    >
-                      Send Test Message
-                    </Button>
-                  </div>
-
-                  {chatId ? (
-                    <div className="mt-3 text-xs text-gray-400">
-                      <p>
-                        Add this chat ID to your{" "}
-                        <code className="text-terminal-green">.env.local</code>{" "}
-                        file as{" "}
-                        <code className="text-terminal-green">
-                          NEXT_PUBLIC_TELEGRAM_CHAT_ID
-                        </code>
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="mt-3">
-                      <div className="text-xs text-gray-400 mb-2">
-                        Or manually enter your chat ID:
-                      </div>
-                      <div className="flex">
-                        <input
-                          type="text"
-                          placeholder="Enter your chat ID"
-                          className="flex-1 bg-black/30 border border-white/10 rounded-l px-3 py-1 text-white text-xs focus:outline-none focus:border-terminal-green/50"
-                          onChange={(e) => setChatId(e.target.value)}
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="rounded-l-none border-terminal-green/30 text-terminal-green hover:bg-terminal-green/10 text-xs py-1 px-2"
-                          onClick={() => {
-                            if (chatId) {
-                              alert(`Chat ID set to: ${chatId}`);
-                            }
-                          }}
-                        >
-                          Set
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+                <a
+                  href={siteConfig.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  <Linkedin className="h-5 w-5 text-primary shrink-0" />
+                  <span className="truncate">{siteConfig.linkedin}</span>
+                </a>
+              </div>
             </div>
-
-            <p className="text-center text-gray-400">
-              &copy; {new Date().getFullYear()} Binyam Mulat Abegaz. All rights
-              reserved.
-            </p>
           </div>
-        </GlassCard>
-      </div>
-    </Container>
+        </div>
+      </motion.div>
+    </div>
   );
 }

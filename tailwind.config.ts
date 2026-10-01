@@ -15,7 +15,7 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
     extend: {
@@ -53,10 +53,6 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        "terminal-green": "hsl(var(--terminal-green))",
-        "deep-blue": "hsl(var(--deep-blue))",
-        "mint-green": "hsl(var(--mint-green))",
-        "off-black": "hsl(var(--off-black))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,7 +61,7 @@ const config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
-        jetbrains: ["var(--font-jetbrains)"],
+        mono: ["var(--font-jetbrains)"],
       },
       keyframes: {
         "accordion-down": {
@@ -76,29 +72,10 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        glow: {
-          "0%, 100%": {
-            textShadow: "0 0 5px hsl(var(--secondary)), 0 0 10px hsl(var(--secondary)/50)",
-          },
-          "50%": {
-            textShadow: "0 0 10px hsl(var(--secondary)), 0 0 20px hsl(var(--secondary)/50)",
-          },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-        "matrix-fall": {
-          "0%": { transform: "translateY(-100%)" },
-          "100%": { transform: "translateY(100vh)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        glow: "glow 2s ease-in-out infinite",
-        float: "float 6s ease-in-out infinite",
-        "matrix-fall": "matrix-fall 20s linear infinite",
       },
     },
   },
@@ -106,4 +83,3 @@ const config = {
 } satisfies Config
 
 export default config
-
