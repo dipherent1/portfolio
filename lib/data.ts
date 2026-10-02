@@ -149,7 +149,7 @@ export const education: Education[] = [
     school: "Addis Ababa Science and Technology University (AASTU)",
     period: "05/2022 – 06/2026",
     description:
-      "Relevant Courses: Introduction to Programming (cpp), Object Oriented Programming, Machine Learning, Mechatronics System, Computer Vision, Numerics (Computational Methods), Robotics, Embedded Systems.",
+      "Courses taken: Introduction to Programming (C++), Object-Oriented Programming, Machine Learning, Mechatronics Systems, Computer Vision, Computational Methods (Numerics), Robotics, Embedded Systems.",
   },
   {
     degree: "Coding School — A2SV",
