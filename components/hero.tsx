@@ -22,12 +22,12 @@ export default function Hero() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="flex flex-col items-center max-w-3xl mx-auto"
       >
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-tight">
           <span className="block">Hi, I&apos;m</span>
-          <span className="block gradient-text mt-2">{siteConfig.name}</span>
+          <span className="block gradient-text mt-3 pb-2 leading-tight">{siteConfig.name}</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-muted-foreground mt-4">
+        <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mt-6 font-medium">
           {siteConfig.title}
         </p>
 

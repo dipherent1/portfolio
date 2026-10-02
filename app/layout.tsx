@@ -17,6 +17,9 @@ export const metadata = {
   title: "Binyam Mulat Abegaz | Fullstack Developer & Mechatronics Engineer",
   description:
     "Portfolio of Binyam Mulat Abegaz — fullstack developer and mechatronics engineer with expertise in Golang, FastAPI, Django, Laravel, and AI.",
+  icons: {
+    icon: "/icon.svg",
+  },
 }
 
 export default function RootLayout({
