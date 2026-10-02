@@ -57,6 +57,21 @@ export const experiences: Experience[] = [
     skills: ["Laravel", "Laragent", "Vizra", "FastAPI", "LangChain", "MCP", "Docker"],
   },
   {
+    title: "Kifiya AI Mastery Program",
+    company: "Kifiya Financial Technology",
+    period: "Sep 2025 – Nov 2025",
+    location: "Addis Ababa, Ethiopia",
+    description:
+      "Completed an intensive 3-month AI Mastery program focused on ML engineering, data engineering, deployment, and generative AI for fintech.",
+    achievements: [
+      "Data Engineering: ETL, DBT transformations, DVC and infrastructure setup for data pipelines",
+      "Deployment & MLOps: Docker, GitHub CI/CD, model deployment, unit testing and dashboard building",
+      "ML & Generative AI: predictive modeling, RAG, prompt engineering, and LLM fine-tuning",
+    ],
+    skills: ["Python", "SQL", "Data Engineering", "Docker", "CI/CD", "MLOps", "RAG"],
+    link: "https://kifiya.com/",
+  },
+  {
     title: "AI Engineer",
     company: "ICOG Labs",
     period: "Jan 2025 – Apr 2025",
@@ -71,21 +86,6 @@ export const experiences: Experience[] = [
     ],
     skills: ["Python", "TensorFlow", "PyTorch", "NLP", "Computer Vision", "Docker", "Kubernetes"],
     link: "https://www.icog-labs.com/",
-  },
-  {
-    title: "Kifiya AI Mastery Program",
-    company: "Kifiya Financial Technology",
-    period: "Sep 2025 – Nov 2025",
-    location: "Addis Ababa, Ethiopia",
-    description:
-      "Completed an intensive 3-month AI Mastery program focused on ML engineering, data engineering, deployment, and generative AI for fintech.",
-    achievements: [
-      "Data Engineering: ETL, DBT transformations, DVC and infrastructure setup for data pipelines",
-      "Deployment & MLOps: Docker, GitHub CI/CD, model deployment, unit testing and dashboard building",
-      "ML & Generative AI: predictive modeling, RAG, prompt engineering, and LLM fine-tuning",
-    ],
-    skills: ["Python", "SQL", "Data Engineering", "Docker", "CI/CD", "MLOps", "RAG"],
-    link: "https://kifiya.com/",
   },
   {
     title: "Backend Developer",
@@ -149,7 +149,7 @@ export const education: Education[] = [
     school: "Addis Ababa Science and Technology University (AASTU)",
     period: "05/2022 – 06/2026",
     description:
-      "Courses taken: Introduction to Programming (C++), Object-Oriented Programming, Machine Learning, Mechatronics Systems, Computer Vision, Computational Methods (Numerics), Robotics, Embedded Systems.",
+      "Courses taken Introduction to Programming (C++), Object-Oriented Programming, Machine Learning, Mechatronics Systems, Computer Vision, Computational Methods (Numerics), Robotics, Embedded Systems.",
   },
   {
     degree: "Coding School — A2SV",
