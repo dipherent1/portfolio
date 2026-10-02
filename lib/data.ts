@@ -6,7 +6,7 @@
 // --- Site-wide config -------------------------------------------------------
 export const siteConfig = {
   name: "Binyam Mulat Abegaz",
-  title: "Fullstack Developer & Mechatronics Engineer",
+  title: "Fullstack Developer & Electromechanical Engineer",
   email: "binyammulat244@gmail.com",
   github: "https://github.com/dipherent1",
   linkedin: "https://www.linkedin.com/in/binyam-mulat-abegaz",
@@ -15,7 +15,7 @@ export const siteConfig = {
   heroTagline:
     "I build robust backend systems, AI-driven automation, and things that bridge software and hardware.",
   about: [
-    "I'm a Fullstack Engineer with a BSc in Mechatronics Engineering from Addis Ababa University. My passion for innovation led me to blend hardware and software — from embedded IoT systems to scalable cloud APIs.",
+    "I'm a Fullstack Engineer with a BSc in Electromechanical Engineering from Addis Ababa Science and Technology University (AASTU). My passion for innovation led me to blend hardware and software — from embedded IoT systems to scalable cloud APIs.",
     "Currently I focus on building AI-driven automation and agentic systems that streamline workflows and optimize costs. I've shipped production systems with Python, Go, Laravel, and modern frontend frameworks.",
     "With 800+ DSA problems solved and experience across backend, AI/ML, and mechatronics, I bring a unique cross-disciplinary perspective to every project I work on.",
   ],
@@ -145,11 +145,11 @@ export interface Education {
 
 export const education: Education[] = [
   {
-    degree: "BSc in Mechatronics Engineering",
-    school: "Addis Ababa University",
-    period: "2022 – 2024",
+    degree: "BSc in Electromechanical Engineering",
+    school: "Addis Ababa Science and Technology University (AASTU)",
+    period: "05/2022 – 06/2026",
     description:
-      "Integration of mechanical, electronic, and software systems. Capstone project on Smart Bike Rack system.",
+      "Relevant Courses: Introduction to Programming (cpp), Object Oriented Programming, Machine Learning, Mechatronics System, Computer Vision, Numerics (Computational Methods), Robotics, Embedded Systems.",
   },
   {
     degree: "Coding School — A2SV",
