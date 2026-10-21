@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useForm, ValidationError } from "@formspree/react";
-import { Mail, Github, Linkedin, Send } from "lucide-react";
+import { Mail, Phone, Github, Linkedin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -133,6 +133,14 @@ export default function Contact() {
                 >
                   <Mail className="h-5 w-5 text-primary shrink-0" />
                   <span className="truncate">{siteConfig.email}</span>
+                </a>
+
+                <a
+                  href={`tel:${siteConfig.phone.replace(/[^+\d]/g, "")}`}
+                  className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors py-2"
+                >
+                  <Phone className="h-5 w-5 text-primary shrink-0" />
+                  <span className="truncate">{siteConfig.phone}</span>
                 </a>
 
                 <a

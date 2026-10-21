@@ -6,18 +6,18 @@
 // --- Site-wide config -------------------------------------------------------
 export const siteConfig = {
   name: "Binyam Mulat Abegaz",
-  title: "Fullstack Developer & Electromechanical Engineer",
+  title: "AI Engineer / Full Stack Developer",
   email: "binyammulat244@gmail.com",
+  phone: "+1 437-757-8690",
   github: "https://github.com/dipherent1",
   linkedin: "https://www.linkedin.com/in/binyam-mulat-abegaz",
-  location: "Addis Ababa, Ethiopia",
+  location: "Toronto, ON, Canada",
   resumePath: "/files/resume.pdf",
   heroTagline:
-    "I build robust backend systems, AI-driven automation, and things that bridge software and hardware.",
+    "I build production AI systems, agentic automation, and full-stack applications that bridge software and hardware.",
   about: [
-    "I'm a Fullstack Engineer with a BSc in Electromechanical Engineering from Addis Ababa Science and Technology University (AASTU). My passion for innovation led me to blend hardware and software — from embedded IoT systems to scalable cloud APIs.",
-    "Currently I focus on building AI-driven automation and agentic systems that streamline workflows and optimize costs. I've shipped production systems with Python, Go, Laravel, and modern frontend frameworks.",
-    "With 800+ DSA problems solved and experience across backend, AI/ML, and mechatronics, I bring a unique cross-disciplinary perspective to every project I work on.",
+    "I'm an AI Engineer and Full Stack Developer with a BSc in Electromechanical Engineering from Addis Ababa Science and Technology University (AASTU). My passion for innovation led me to blend hardware and software — from embedded IoT systems to scalable cloud APIs.",
+    "Currently I focus on building AI-driven automation and agentic systems that streamline workflows and optimize costs. I've built several systems with Python, Go, Laravel, and modern frontend frameworks.",
   ],
 };
 
@@ -25,8 +25,8 @@ export const siteConfig = {
 export const stats = [
   { value: "800+", label: "DSA Problems Solved" },
   { value: "10+", label: "Projects Built" },
-  { value: "3+", label: "Years Experience" },
-  { value: "6+", label: "Technologies" },
+  { value: "2+", label: "Years Experience" },
+  { value: "15+", label: "Technologies" },
 ];
 
 // --- Experience entries (most recent first) ---------------------------------
@@ -43,48 +43,64 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    title: "AI System Engineer",
-    company: "Budera",
-    period: "Oct 2025 – Nov 2025",
+    title: "AI Engineer",
+    company: "Mella Software Solutions PLC",
+    period: "Jun 2026 – Sep 2026",
     location: "Addis Ababa, Ethiopia",
     description:
-      "Architected backend infrastructure and built agentic systems for financial data analysis and cost optimization.",
+      "Deployed generative AI and document-processing pipelines for video, image, text, and RAG workloads.",
     achievements: [
-      "Architected the core backend infrastructure using Laravel to orchestrate autonomous multi-agent workflows for cost optimization",
-      "Engineered a hybrid agentic architecture using Laravel, Laragent, and Vizra to autonomously categorize thousands of financial transaction records",
-      "Developed a specialized microservice using FastAPI and LangChain with MCP support for high-performance context exchange between LLMs and external data tools",
+      "Deployed LTX-based video and image generation pipelines and Qwen multimodal models with FastAPI on a remote production server for video, text, and image generation",
+      "Implemented logging and retry handling in the workflows to help diagnose failures and improve resilience during processing",
+      "Automated extraction from multiple 1,000+ page technical datasheets containing images and tables using Docling, reducing processing time to under 10 minutes per datasheet for a RAG system",
     ],
-    skills: ["Laravel", "Laragent", "Vizra", "FastAPI", "LangChain", "MCP", "Docker"],
+    skills: ["Python", "FastAPI", "LTX", "Qwen", "Docling", "RAG"],
   },
   {
-    title: "Kifiya AI Mastery Program",
-    company: "Kifiya Financial Technology",
+    title: "AI System Engineer",
+    company: "Budera",
     period: "Sep 2025 – Nov 2025",
     location: "Addis Ababa, Ethiopia",
     description:
-      "Completed an intensive 3-month AI Mastery program focused on ML engineering, data engineering, deployment, and generative AI for fintech.",
+      "Built multi-agent systems for financial data analysis and cost optimization.",
     achievements: [
-      "Data Engineering: ETL, DBT transformations, DVC and infrastructure setup for data pipelines",
-      "Deployment & MLOps: Docker, GitHub CI/CD, model deployment, unit testing and dashboard building",
-      "ML & Generative AI: predictive modeling, RAG, prompt engineering, and LLM fine-tuning",
+      "Built a hybrid multi-agent system with Laravel, Laragent, and Vizra to categorize and analyze thousands of financial transaction records, replacing a largely manual categorization process",
+      "Built a FastAPI and LangChain microservice with MCP support to connect LLMs to 30+ external financial data sources and work with live financial data",
     ],
-    skills: ["Python", "SQL", "Data Engineering", "Docker", "CI/CD", "MLOps", "RAG"],
-    link: "https://kifiya.com/",
+    skills: [
+      "Laravel",
+      "Laragent",
+      "Vizra",
+      "FastAPI",
+      "LangChain",
+      "MCP",
+      "Docker",
+    ],
   },
   {
-    title: "AI Engineer",
-    company: "ICOG Labs",
-    period: "Jan 2025 – Apr 2025",
+    title: "AI and Machine-Learning Intern",
+    company: "iCog Labs",
+    period: "Jan 2025 – May 2025",
     location: "Addis Ababa, Ethiopia",
     description:
-      "Built MCP servers, trained AI models, and optimized machine learning pipelines across multiple applications.",
+      "Built bioinformatics AI agents and ML models, and integrated genetic data visualization tools.",
     achievements: [
-      "Developed and deployed 5+ AI models improving prediction accuracy by 30%",
-      "Optimized ML pipelines reducing inference time by 40%",
-      "Collaborated with research teams on state-of-the-art NLP solutions",
-      "Mentored 3 junior engineers in AI development practices",
+      "Designed and developed a bioinformatics AI agent using a custom-built MCP server and BioBlend, with a FastAPI backend supporting Gemini, OpenAI, and Groq",
+      "Engineered a React platform to integrate and test genetic data visualization tools including JBrowse and LocusZoom, validating more than 100 integrated tools for research applications",
+      "Implemented regression, classification, clustering, and neural-network models across 10+ machine-learning projects, applying end-to-end model development during the training program",
     ],
-    skills: ["Python", "TensorFlow", "PyTorch", "NLP", "Computer Vision", "Docker", "Kubernetes"],
+    skills: [
+      "Python",
+      "FastAPI",
+      "MCP",
+      "BioBlend",
+      "React",
+      "PyTorch",
+      "Scikit-learn",
+      "Gemini",
+      "OpenAI",
+      "Groq",
+    ],
     link: "https://www.icog-labs.com/",
   },
   {
@@ -115,7 +131,15 @@ export const experiences: Experience[] = [
       "Optimized database queries resulting in 25% faster response times",
       "Implemented authentication and authorization systems using JWT",
     ],
-    skills: ["Python", "Django", "FastAPI", "PostgreSQL", "Redis", "Docker", "Git"],
+    skills: [
+      "Python",
+      "Django",
+      "FastAPI",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "Git",
+    ],
     link: "https://www.eskalate.io/",
   },
   {
@@ -149,14 +173,21 @@ export const education: Education[] = [
     school: "Addis Ababa Science and Technology University (AASTU)",
     period: "05/2022 – 06/2026",
     description:
-      "Courses taken Introduction to Programming (C++), Object-Oriented Programming, Machine Learning, Mechatronics Systems, Computer Vision, Computational Methods (Numerics), Robotics, Embedded Systems.",
+      "Took courses in: Introduction to Programming (C++), Machine Learning, Mechatronics Systems, Computer Vision, Numerics (Computational Methods), Robotics, Embedded Systems, Modern Control.",
   },
   {
     degree: "Coding School — A2SV",
     school: "Africa to Silicon Valley",
-    period: "Nov 2023 – Nov 2024",
+    period: "11/2023 – 11/2024",
     description:
-      "Solved 800+ problems on Leetcode/Codeforces. 1,000+ hours of DSA training.",
+      "Advanced Data Structures and Algorithms and backend engineering technical fellowship; solved 800+ problems on LeetCode and Codeforces.",
+  },
+  {
+    degree: "Kifiya AI Mastery (KAIM) Training Program",
+    school: "10 Academy",
+    period: "05/2025 – 08/2025",
+    description:
+      "Selected for an intensive 3-month AI engineering residency focused on Generative AI, Machine Learning, and Data Engineering.",
   },
 ];
 
@@ -169,6 +200,7 @@ export interface Project {
   liveUrl?: string;
   image?: string;
   linkedinUrl?: string;
+  period?: string;
 }
 
 export const projects: Project[] = [
@@ -186,25 +218,36 @@ export const projects: Project[] = [
     description:
       "AI co-pilot for support agents using Gemini for automated ticket triage and summarization. Real-time SPA front-end with Vue.js/Inertia.js, secure multi-tenancy, and background jobs with Laravel.",
     techStack: ["Laravel", "Vue.js", "Inertia.js", "Gemini", "Laragents"],
-    githubUrl: "https://github.com/dipherent1/PHP_learning/tree/main/PHP/phase3/support-hub-ai",
+    githubUrl:
+      "https://github.com/dipherent1/PHP_learning/tree/main/PHP/phase3/support-hub-ai",
     image: "/image/supporthub-ai-1.jpg",
   },
   {
     title: "Hyprland AI Assistant",
     description:
-      "Native AI desktop assistant for Linux built with Golang and Flyt. Reduces workflow friction for AI tasks by 75% by integrating directly with Google's Gemini API for multimodal interactions.",
+      "Native AI desktop assistant for Linux built with Golang and Flyt. Reduces workflow friction for common AI tasks by 75% by integrating directly with Google's Gemini API for multimodal text, image, and web-search interactions.",
     techStack: ["Golang", "Flyt", "Linux", "Gemini API"],
     githubUrl: "https://github.com/dipherent1/ai_wraper",
     image: "/image/fedora-copilot.jpg",
-    linkedinUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7385968582125576192/",
+    linkedinUrl:
+      "https://www.linkedin.com/feed/update/urn:li:activity:7385968582125576192/",
+    period: "10/2025 – 01/2026",
   },
   {
     title: "Info-Stream: AI Alert Engine for Telegram",
     description:
-      "Production-ready Telegram bot that transforms high-volume chats into a personalized intelligence feed. AI-powered semantic search with Gemini & pgvector, decoupled microservices architecture.",
-    techStack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "SQLAlchemy", "AWS"],
+      "Real-time message filtering and alerting system for Telegram. Uses a personal account as the listener and a bot as the UI, transforming 100+ high-volume channels into personalized semantic intelligence feeds with Gemini embeddings and pgvector.",
+    techStack: [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "pgvector",
+      "SQLAlchemy",
+      "Gemini",
+    ],
     githubUrl: "https://github.com/dipherent1/Tg_wrapper",
     image: "/image/info-image-1.jpg",
+    period: "08/2025 – 10/2025",
   },
   {
     title: "Kesbekes 2.0",
@@ -233,32 +276,58 @@ export const skills: SkillCategory[] = [
   {
     title: "Languages & Frameworks",
     skills: [
-      "Golang", "Python", "TypeScript", "C/C++", "PHP",
-      "FastAPI", "Django", "Laravel", "React", "Next.js",
+      "Golang",
+      "Python",
+      "TypeScript",
+      "C/C++",
+      "PHP",
+      "FastAPI",
+      "Django",
+      "Laravel",
+      "Gin",
+      "React",
+      "Next.js",
     ],
   },
   {
     title: "AI & Machine Learning",
     skills: [
-      "AI Agent Development", "LangChain", "MCP",
-      "TensorFlow", "PyTorch", "NLP", "Computer Vision",
-      "RAG", "Prompt Engineering",
+      "AI Agent Development",
+      "LangChain",
+      "MCP",
+      "PyTorch",
+      "Scikit-learn",
+      "TensorFlow",
+      "NLP",
+      "Computer Vision",
+      "RAG",
+      "Prompt Engineering",
     ],
   },
   {
     title: "Databases & Infrastructure",
     skills: [
-      "PostgreSQL", "MongoDB", "Redis",
-      "Docker", "Kubernetes", "CI/CD",
-      "Linux", "Git", "AWS",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "Linux",
+      "Git",
+      "AWS",
     ],
   },
   {
     title: "Mechatronics & IoT",
     skills: [
-      "Arduino", "ESP-32", "Robotics",
-      "Embedded Systems", "Solidworks",
-      "PCB Design", "MQTT",
+      "Arduino",
+      "ESP-32",
+      "Robotics",
+      "Embedded Systems",
+      "Solidworks",
+      "PCB Design",
+      "MQTT",
     ],
   },
 ];
