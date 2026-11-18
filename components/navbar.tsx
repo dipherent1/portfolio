@@ -25,15 +25,19 @@ export default function Navbar() {
       });
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    let observer: IntersectionObserver | undefined;
 
-    navItems.forEach((item) => {
-      const sectionId = item.href.replace(/^#/, "");
-      const element = document.getElementById(sectionId);
-      if (element) {
-        observer.observe(element);
-      }
-    });
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(observerCallback, observerOptions);
+
+      navItems.forEach((item) => {
+        const sectionId = item.href.replace(/^#/, "");
+        const element = document.getElementById(sectionId);
+        if (element) {
+          observer?.observe(element);
+        }
+      });
+    }
 
     const handleScroll = () => {
       if (window.scrollY < 100) {
@@ -52,7 +56,7 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);

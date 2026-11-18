@@ -2,6 +2,7 @@ import type React from "react"
 import "@/app/globals.css"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import { cn } from "@/lib/utils"
+import BrowserPolyfills from "@/components/browser-polyfills"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
           jetbrainsMono.variable,
         )}
       >
+        <BrowserPolyfills />
         {children}
       </body>
     </html>
